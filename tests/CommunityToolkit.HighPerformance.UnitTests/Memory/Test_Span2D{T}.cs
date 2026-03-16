@@ -308,11 +308,17 @@ public class Test_Span2DT
 
         span2d.Fill(42);
 
-        CollectionAssert.AreEqual(array, array);
+        int[,] unmodified =
+        {
+            { 1, 2, 3 },
+            { 4, 5, 6 }
+        };
+
+        CollectionAssert.AreEqual(unmodified, array);
 
         span2d.Clear();
 
-        CollectionAssert.AreEqual(array, array);
+        CollectionAssert.AreEqual(unmodified, array);
     }
 
     [TestMethod]
