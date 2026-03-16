@@ -33,7 +33,7 @@ partial struct Span2D<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
         }
 
-        nint startIndex = (nint)(uint)this.Stride * (nint)(uint)row;
+        nint startIndex = (nint)(uint)this.stride * (nint)(uint)row;
         ref T r0 = ref DangerousGetReference();
         ref T r1 = ref Unsafe.Add(ref r0, startIndex);
 
@@ -64,11 +64,11 @@ partial struct Span2D<T>
         ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)column);
 
 #if NETSTANDARD2_1_OR_GREATER
-        return new(ref r1, Height, this.Stride);
+        return new(ref r1, Height, this.stride);
 #else
         IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.Instance, ref r1);
 
-        return new(this.Instance, offset, Height, this.Stride);
+        return new(this.Instance, offset, Height, this.stride);
 #endif
     }
 
@@ -156,7 +156,7 @@ partial struct Span2D<T>
             this.height = span.height;
 #endif
             this.width = span.width;
-            this.stride = span.Stride;
+            this.stride = span.stride;
             this.x = -1;
             this.y = 0;
         }

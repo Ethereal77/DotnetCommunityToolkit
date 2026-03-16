@@ -104,7 +104,7 @@ public readonly ref partial struct Span2D<T>
     /// This combines both the width and pitch in a single value so that the indexing
     /// logic can be simplified (no need to recompute the sum every time) and be faster.
     /// </remarks>
-    internal readonly int Stride;
+    private readonly int stride;
 
 #if NETSTANDARD2_1_OR_GREATER
     /// <summary>
@@ -124,7 +124,7 @@ public readonly ref partial struct Span2D<T>
         this.span = MemoryMarshal.CreateSpan(ref value, height);
 #endif
         this.width = width;
-        this.Stride = width + pitch;
+        this.stride = width + pitch;
     }
 #endif
 
@@ -171,7 +171,7 @@ public readonly ref partial struct Span2D<T>
         this.height = height;
 #endif
         this.width = width;
-        this.Stride = width + pitch;
+        this.stride = width + pitch;
     }
 
 #if !NETSTANDARD2_1_OR_GREATER
@@ -190,7 +190,7 @@ public readonly ref partial struct Span2D<T>
         this.Offset = offset;
         this.height = height;
         this.width = width;
-        this.Stride = width + pitch;
+        this.stride = width + pitch;
     }
 #endif
 
@@ -275,7 +275,7 @@ public readonly ref partial struct Span2D<T>
         this.height = height;
 #endif
         this.width = width;
-        this.Stride = width + pitch;
+        this.stride = width + pitch;
     }
 
     /// <summary>
@@ -309,7 +309,7 @@ public readonly ref partial struct Span2D<T>
         this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(0, 0));
         this.height = array.GetLength(0);
 #endif
-        this.width = this.Stride = array.GetLength(1);
+        this.width = this.stride = array.GetLength(1);
     }
 
     /// <summary>
@@ -380,7 +380,7 @@ public readonly ref partial struct Span2D<T>
         this.height = height;
 #endif
         this.width = width;
-        this.Stride = columns;
+        this.stride = columns;
     }
 
     /// <summary>
@@ -414,7 +414,7 @@ public readonly ref partial struct Span2D<T>
         this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
         this.height = array.GetLength(1);
 #endif
-        this.width = this.Stride = array.GetLength(2);
+        this.width = this.stride = array.GetLength(2);
     }
 
     /// <summary>
@@ -476,7 +476,7 @@ public readonly ref partial struct Span2D<T>
         this.height = height;
 #endif
         this.width = width;
-        this.Stride = columns;
+        this.stride = columns;
     }
 
 #if NETSTANDARD2_1_OR_GREATER
@@ -546,7 +546,7 @@ public readonly ref partial struct Span2D<T>
         this.span = MemoryMarshal.CreateSpan(ref span.DangerousGetReferenceAt(offset), height);
 #endif
         this.width = width;
-        this.Stride = width + pitch;
+        this.stride = width + pitch;
     }
 
     /// <summary>
@@ -629,6 +629,16 @@ public readonly ref partial struct Span2D<T>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => this.width;
+    }
+
+    /// <summary>
+    /// Gets the stride of the underlying 2D memory area,
+    /// i.e., the distance in items between the start of each row.
+    /// </summary>
+    public int Stride
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.stride;
     }
 
     /// <summary>
@@ -980,7 +990,7 @@ public readonly ref partial struct Span2D<T>
 #else
         ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
 #endif
-        nint index = ((nint)(uint)i * (nint)(uint)this.Stride) + (nint)(uint)j;
+        nint index = ((nint)(uint)i * (nint)(uint)this.stride) + (nint)(uint)j;
 
         return ref Unsafe.Add(ref r0, index);
     }
@@ -1042,8 +1052,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
         }
 
-        nint shift = ((nint)(uint)this.Stride * (nint)(uint)row) + (nint)(uint)column;
-        int pitch = this.Stride - width;
+        nint shift = ((nint)(uint)this.stride * (nint)(uint)row) + (nint)(uint)column;
+        int pitch = this.stride - width;
 
 #if NET8_0_OR_GREATER
         ref T r0 = ref Unsafe.Add(ref this.reference, shift);
@@ -1088,7 +1098,7 @@ public readonly ref partial struct Span2D<T>
     public bool TryGetSpan(out Span<T> span)
     {
         // We can only create a Span<T> if the buffer is contiguous
-        if (this.Stride == this.width &&
+        if (this.stride == this.width &&
             Length <= int.MaxValue)
         {
 #if NET8_0_OR_GREATER
@@ -1218,7 +1228,7 @@ public readonly ref partial struct Span2D<T>
                 left.height == right.height &&
 #endif
                 left.width == right.width &&
-                left.Stride == right.Stride;
+                left.stride == right.stride;
     }
 
     /// <summary>

@@ -553,6 +553,16 @@ public readonly ref partial struct ReadOnlySpan2D<T>
     }
 
     /// <summary>
+    /// Gets the stride of the underlying 2D memory area,
+    /// i.e., the distance in items between the start of each row.
+    /// </summary>
+    public int Stride
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.stride;
+    }
+
+    /// <summary>
     /// Gets the element at the specified zero-based indices.
     /// </summary>
     /// <param name="row">The target row to get the element from.</param>
