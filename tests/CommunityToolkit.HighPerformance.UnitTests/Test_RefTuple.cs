@@ -341,6 +341,30 @@ public class Test_RefTuple
         Assert.IsTrue(Unsafe.AreSame(ref span[1], ref tuple.Item1[0]));
     }
 
+    [TestMethod]
+    public void Test_RefTuple_T2_DeconstructAssignment_WithVar()
+    {
+        RefTuple<int, int> tuple = new(10, 20);
+
+        var (a, b) = tuple;
+
+        Assert.AreEqual(10, a);
+        Assert.AreEqual(20, b);
+    }
+
+    [TestMethod]
+    public void Test_RefTuple_T2_DeconstructAssignment_WithExplicitTypes()
+    {
+        Span<int> source = stackalloc[] { 7, 8, 9, 10 };
+        RefTuple<Span<int>, int> tuple = new(source[1..3], 42);
+
+        (Span<int> a, int b) = tuple;
+
+        Assert.AreEqual(2, a.Length);
+        Assert.AreEqual(42, b);
+        Assert.IsTrue(Unsafe.AreSame(ref source[1], ref a[0]));
+    }
+
     private readonly struct AlwaysEqualStruct : IEquatable<AlwaysEqualStruct>
     {
         private readonly int value;
