@@ -361,7 +361,6 @@ public partial class Test_Guard
         Assert.Fail();
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_Guard_IsTrue_WithHandler_Ok()
     {
@@ -386,7 +385,6 @@ public partial class Test_Guard
         // but we leave the assertion to double check that's valid
         Assert.Fail();
     }
-#endif
 
     [TestMethod]
     public void Test_Guard_IsFalse_Ok()
@@ -418,7 +416,6 @@ public partial class Test_Guard
         Assert.Fail();
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_Guard_IsFalse_WithHandler_Ok()
     {
@@ -443,7 +440,6 @@ public partial class Test_Guard
         // but we leave the assertion to double check that's valid
         Assert.Fail();
     }
-#endif
 
     [TestMethod]
     public void Test_Guard_IsLessThan_Ok()

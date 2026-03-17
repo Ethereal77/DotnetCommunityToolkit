@@ -8,9 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-#if NETSTANDARD2_1_OR_GREATER
 using CommunityToolkit.HighPerformance.Buffers.Internals;
-#endif
 using CommunityToolkit.HighPerformance.Helpers;
 using CommunityToolkit.HighPerformance.Memory.Internals;
 using CommunityToolkit.HighPerformance.Memory.Views;
@@ -308,7 +306,6 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
         this.pitch = columns - width;
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
     /// </summary>
@@ -476,7 +473,6 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
         this.width = width;
         this.pitch = pitch;
     }
-#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct with the specified parameters.
@@ -584,7 +580,6 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
         {
             if (this.instance is not null)
             {
-#if NETSTANDARD2_1_OR_GREATER
                 if (this.instance is MemoryManager<T> memoryManager)
                 {
                     ref T r0 = ref memoryManager.GetSpan().DangerousGetReference();
@@ -598,16 +593,12 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
 
                     return new(ref r0, this.height, this.width, this.pitch);
                 }
-#else
-                return new(this.instance, this.offset, this.height, this.width, this.pitch);
-#endif
             }
 
             return default;
         }
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Slices the current instance with the specified parameters.
     /// </summary>
@@ -628,7 +619,6 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
             return Slice(row, column, height, width);
         }
     }
-#endif
 
     /// <summary>
     /// Slices the current instance with the specified parameters.
@@ -777,16 +767,14 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
 
                 memory = array.AsMemory(index, this.height * this.width);
             }
-#if NETSTANDARD2_1_OR_GREATER
             else if (this.instance.GetType() == typeof(T[,]) ||
-                        this.instance.GetType() == typeof(T[,,]))
+                     this.instance.GetType() == typeof(T[,,]))
             {
                 // If the object is a 2D or 3D array, we can create a Memory<T> from the RawObjectMemoryManager<T> type.
                 // We just need to use the precomputed offset pointing to the first item in the current instance,
                 // and the current usable length. We don't need to retrieve the current index, as the manager just offsets.
                 memory = new RawObjectMemoryManager<T>(this.instance, this.offset, this.height * this.width).Memory;
             }
-#endif
             else
             {
                 // Reuse a single failure path to reduce
@@ -797,7 +785,7 @@ public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
             return true;
         }
 
-        Failure:
+    Failure:
 
         memory = default;
 

@@ -4,18 +4,11 @@
 
 using System;
 using System.ComponentModel;
-using System.Data.Common;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-#if !NETSTANDARD2_1_OR_GREATER
-using CommunityToolkit.HighPerformance.Helpers;
-#endif
 using CommunityToolkit.HighPerformance.Memory.Internals;
 using CommunityToolkit.HighPerformance.Memory.Views;
-#if !NETSTANDARD2_1_OR_GREATER
-using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
-#endif
 
 #pragma warning disable CS0809, CA1065
 
@@ -56,7 +49,7 @@ public readonly ref partial struct Span2D<T>
     // discontiguous row, so that any arbitrary memory locations
     // can be used to internally represent a 2D span. This gives
     // users much more flexibility when creating spans from data.
-#if NET8_0_OR_GREATER
+
     /// <summary>
     /// The <typeparamref name="T"/> reference for the <see cref="Span2D{T}"/> instance.
     /// </summary>
@@ -66,31 +59,6 @@ public readonly ref partial struct Span2D<T>
     /// The height of the specified 2D region.
     /// </summary>
     private readonly int height;
-#elif NETSTANDARD2_1_OR_GREATER
-    /// <summary>
-    /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
-    /// </summary>
-    /// <remarks>
-    /// The <see cref="Span{T}.Length"/> field maps to the height of the 2D region.
-    /// This is done to save 4 bytes in the layout of the <see cref="Span2D{T}"/> type.
-    /// </remarks>
-    private readonly Span<T> span;
-#else
-    /// <summary>
-    /// The target <see cref="object"/> instance, if present.
-    /// </summary>
-    internal readonly object? Instance;
-
-    /// <summary>
-    /// The initial byte offset within <see cref="Instance"/>.
-    /// </summary>
-    internal readonly nint Offset;
-
-    /// <summary>
-    /// The height of the specified 2D region.
-    /// </summary>
-    private readonly int height;
-#endif
 
     /// <summary>
     /// The width of the specified 2D region.
@@ -106,7 +74,6 @@ public readonly ref partial struct Span2D<T>
     /// </remarks>
     internal readonly int Stride;
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
     /// </summary>
@@ -117,16 +84,11 @@ public readonly ref partial struct Span2D<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal Span2D(ref T value, int height, int width, int pitch)
     {
-#if NET8_0_OR_GREATER
         this.reference = ref value;
         this.height = height;
-#else
-        this.span = MemoryMarshal.CreateSpan(ref value, height);
-#endif
         this.width = width;
         this.Stride = width + pitch;
     }
-#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
@@ -160,39 +122,11 @@ public readonly ref partial struct Span2D<T>
 
         OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-#if NET8_0_OR_GREATER
         this.reference = ref Unsafe.AsRef<T>(pointer);
         this.height = height;
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = new Span<T>(pointer, height);
-#else
-        this.Instance = null;
-        this.Offset = (IntPtr)pointer;
-        this.height = height;
-#endif
         this.width = width;
         this.Stride = width + pitch;
     }
-
-#if !NETSTANDARD2_1_OR_GREATER
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
-    /// </summary>
-    /// <param name="instance">The target <see cref="object"/> instance.</param>
-    /// <param name="offset">The initial offset within the target instance.</param>
-    /// <param name="height">The height of the 2D memory area to map.</param>
-    /// <param name="width">The width of the 2D memory area to map.</param>
-    /// <param name="pitch">The pitch of the 2D memory area to map.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal Span2D(object? instance, IntPtr offset, int height, int width, int pitch)
-    {
-        this.Instance = instance;
-        this.Offset = offset;
-        this.height = height;
-        this.width = width;
-        this.Stride = width + pitch;
-    }
-#endif
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
@@ -264,16 +198,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentException();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref array.DangerousGetReferenceAt(offset);
         this.height = height;
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(offset), height);
-#else
-        this.Instance = array;
-        this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
-        this.height = height;
-#endif
         this.width = width;
         this.Stride = width + pitch;
     }
@@ -299,16 +225,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArrayTypeMismatchException();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref array.DangerousGetReference();
         this.height = array.GetLength(0);
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReference(), array.GetLength(0));
-#else
-        this.Instance = array;
-        this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(0, 0));
-        this.height = array.GetLength(0);
-#endif
         this.width = this.Stride = array.GetLength(1);
     }
 
@@ -369,16 +287,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref array.DangerousGetReferenceAt(row, column);
         this.height = height;
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(row, column), height);
-#else
-        this.Instance = array;
-        this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
-        this.height = height;
-#endif
         this.width = width;
         this.Stride = columns;
     }
@@ -404,16 +314,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref array.DangerousGetReferenceAt(depth, 0, 0);
         this.height = array.GetLength(1);
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
-#else
-        this.Instance = array;
-        this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
-        this.height = array.GetLength(1);
-#endif
         this.width = this.Stride = array.GetLength(2);
     }
 
@@ -465,21 +367,12 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref array.DangerousGetReferenceAt(depth, row, column);
         this.height = height;
-#elif NETSTANDARD2_1_OR_GREATER
-        this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, row, column), height);
-#else
-        this.Instance = array;
-        this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
-        this.height = height;
-#endif
         this.width = width;
         this.Stride = columns;
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
     /// </summary>
@@ -539,12 +432,8 @@ public readonly ref partial struct Span2D<T>
             ThrowHelper.ThrowArgumentException();
         }
 
-#if NET8_0_OR_GREATER
         this.reference = ref span.DangerousGetReferenceAt(offset);
         this.height = height;
-#else
-        this.span = MemoryMarshal.CreateSpan(ref span.DangerousGetReferenceAt(offset), height);
-#endif
         this.width = width;
         this.Stride = width + pitch;
     }
@@ -579,7 +468,6 @@ public readonly ref partial struct Span2D<T>
 
         return new(ref value, height, width, pitch);
     }
-#endif
 
     /// <summary>
     /// Gets an empty <see cref="Span2D{T}"/> instance.
@@ -610,16 +498,7 @@ public readonly ref partial struct Span2D<T>
     public int Height
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get
-        {
-#if NET8_0_OR_GREATER
-            return this.height;
-#elif NETSTANDARD2_1_OR_GREATER
-            return this.span.Length;
-#else
-            return this.height;
-#endif
-        }
+        get => this.height;
     }
 
     /// <summary>
@@ -655,7 +534,6 @@ public readonly ref partial struct Span2D<T>
         }
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Gets the element at the specified zero-based indices.
     /// </summary>
@@ -691,7 +569,6 @@ public readonly ref partial struct Span2D<T>
             return Slice(row, column, height, width);
         }
     }
-#endif
 
     /// <summary>
     /// Clears the contents of the current <see cref="Span2D{T}"/> instance.
@@ -710,28 +587,10 @@ public readonly ref partial struct Span2D<T>
         else
         {
             // Clear one row at a time
-#if NETSTANDARD2_1_OR_GREATER
             for (int i = 0; i < Height; i++)
             {
                 GetRowSpan(i).Clear();
             }
-#else
-            int height = Height;
-            nint width = (nint)(uint)this.width;
-
-            for (int i = 0; i < height; i++)
-            {
-                ref T rStart = ref DangerousGetReferenceAt(i, 0);
-                ref T rEnd = ref Unsafe.Add(ref rStart, width);
-
-                while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
-                {
-                    rStart = default!;
-
-                    rStart = ref Unsafe.Add(ref rStart, 1);
-                }
-            }
-#endif
         }
     }
 
@@ -761,31 +620,10 @@ public readonly ref partial struct Span2D<T>
             }
 
             // Copy each row individually
-#if NETSTANDARD2_1_OR_GREATER
             for (int i = 0, j = 0; i < Height; i++, j += this.width)
             {
                 GetRowSpan(i).CopyTo(destination.Slice(j));
             }
-#else
-            int height = Height;
-            nint width = (nint)(uint)this.width;
-
-            ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-
-            for (int i = 0; i < height; i++)
-            {
-                ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
-                ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
-
-                while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
-                {
-                    destinationRef = sourceStart;
-
-                    sourceStart = ref Unsafe.Add(ref sourceStart, 1);
-                    destinationRef = ref Unsafe.Add(ref destinationRef, 1);
-                }
-            }
-#endif
         }
     }
 
@@ -817,30 +655,10 @@ public readonly ref partial struct Span2D<T>
         else
         {
             // Copy each row individually
-#if NETSTANDARD2_1_OR_GREATER
             for (int i = 0; i < Height; i++)
             {
                 GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
             }
-#else
-            int height = Height;
-            nint width = (nint)(uint)this.width;
-
-            for (int i = 0; i < height; i++)
-            {
-                ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
-                ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
-                ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
-
-                while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
-                {
-                    destinationRef = sourceStart;
-
-                    sourceStart = ref Unsafe.Add(ref sourceStart, 1);
-                    destinationRef = ref Unsafe.Add(ref destinationRef, 1);
-                }
-            }
-#endif
         }
     }
 
@@ -897,28 +715,10 @@ public readonly ref partial struct Span2D<T>
         else
         {
             // Fill one row at a time
-#if NETSTANDARD2_1_OR_GREATER
             for (int i = 0; i < Height; i++)
             {
                 GetRowSpan(i).Fill(value);
             }
-#else
-            int height = Height;
-            nint width = (nint)(uint)this.width;
-
-            for (int i = 0; i < height; i++)
-            {
-                ref T rStart = ref DangerousGetReferenceAt(i, 0);
-                ref T rEnd = ref Unsafe.Add(ref rStart, width);
-
-                while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
-                {
-                    rStart = value;
-
-                    rStart = ref Unsafe.Add(ref rStart, 1);
-                }
-            }
-#endif
         }
     }
 
@@ -936,13 +736,7 @@ public readonly ref partial struct Span2D<T>
 
         if (Length != 0)
         {
-#if NET8_0_OR_GREATER
             r0 = ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-            r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-            r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-#endif
         }
 
         return ref r0;
@@ -955,13 +749,7 @@ public readonly ref partial struct Span2D<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref T DangerousGetReference()
     {
-#if NET8_0_OR_GREATER
         return ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-        return ref MemoryMarshal.GetReference(this.span);
-#else
-        return ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-#endif
     }
 
     /// <summary>
@@ -973,13 +761,7 @@ public readonly ref partial struct Span2D<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref T DangerousGetReferenceAt(int i, int j)
     {
-#if NET8_0_OR_GREATER
         ref T r0 = ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-        ref T r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-        ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-#endif
         nint index = ((nint)(uint)i * (nint)(uint)this.Stride) + (nint)(uint)j;
 
         return ref Unsafe.Add(ref r0, index);
@@ -1045,22 +827,11 @@ public readonly ref partial struct Span2D<T>
         nint shift = ((nint)(uint)this.Stride * (nint)(uint)row) + (nint)(uint)column;
         int pitch = this.Stride - width;
 
-#if NET8_0_OR_GREATER
         ref T r0 = ref Unsafe.Add(ref this.reference, shift);
 
         return new(ref r0, height, width, pitch);
-#elif NETSTANDARD2_1_OR_GREATER
-        ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
-
-        return new(ref r0, height, width, pitch);
-#else
-        IntPtr offset = this.Offset + (shift * (nint)(uint)sizeof(T));
-
-        return new(this.Instance, offset, height, width, pitch);
-#endif
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Gets a <see cref="Span{T}"/> for a specified row.
     /// </summary>
@@ -1078,7 +849,6 @@ public readonly ref partial struct Span2D<T>
 
         return MemoryMarshal.CreateSpan(ref r0, this.width);
     }
-#endif
 
     /// <summary>
     /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous and small enough.
@@ -1091,45 +861,9 @@ public readonly ref partial struct Span2D<T>
         if (this.Stride == this.width &&
             Length <= int.MaxValue)
         {
-#if NET8_0_OR_GREATER
             span = MemoryMarshal.CreateSpan(ref this.reference, (int)Length);
 
             return true;
-#elif NETSTANDARD2_1_OR_GREATER
-            span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), (int)Length);
-
-            return true;
-#else
-            // An empty Span2D<T> is still valid
-            if (IsEmpty)
-            {
-                span = default;
-
-                return true;
-            }
-
-            // Pinned Span2D<T>
-            if (this.Instance is null)
-            {
-                unsafe
-                {
-                    span = new Span<T>((void*)this.Offset, (int)Length);
-                }
-
-                return true;
-            }
-
-            // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
-            if (this.Instance.GetType() == typeof(T[]))
-            {
-                T[] array = Unsafe.As<T[]>(this.Instance)!;
-                int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.Offset));
-
-                span = array.AsSpan(index, (int)Length);
-
-                return true;
-            }
-#endif
         }
 
         span = default;
@@ -1145,32 +879,7 @@ public readonly ref partial struct Span2D<T>
     {
         T[,] array = new T[Height, this.width];
 
-#if NETSTANDARD2_1_OR_GREATER
         CopyTo(array.AsSpan());
-#else
-        // Skip the initialization if the array is empty
-        if (Length > 0)
-        {
-            int height = Height;
-            nint width = (nint)(uint)this.width;
-
-            ref T destinationRef = ref array.DangerousGetReference();
-
-            for (int i = 0; i < height; i++)
-            {
-                ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
-                ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
-
-                while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
-                {
-                    destinationRef = sourceStart;
-
-                    sourceStart = ref Unsafe.Add(ref sourceStart, 1);
-                    destinationRef = ref Unsafe.Add(ref destinationRef, 1);
-                }
-            }
-        }
-#endif
 
         return array;
     }
@@ -1206,19 +915,10 @@ public readonly ref partial struct Span2D<T>
     public static bool operator ==(Span2D<T> left, Span2D<T> right)
     {
         return
-#if NET8_0_OR_GREATER
             Unsafe.AreSame(ref left.reference, ref right.reference) &&
             left.height == right.height &&
-#elif NETSTANDARD2_1_OR_GREATER
-            left.span == right.span &&
-#else
-            ReferenceEquals(
-                left.Instance, right.Instance) &&
-                left.Offset == right.Offset &&
-                left.height == right.height &&
-#endif
-                left.width == right.width &&
-                left.Stride == right.Stride;
+            left.width == right.width &&
+            left.Stride == right.Stride;
     }
 
     /// <summary>

@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NET8_0_OR_GREATER
-
 using System.Runtime.CompilerServices;
 
 namespace CommunityToolkit.HighPerformance;
@@ -58,5 +56,3 @@ public readonly ref struct Ref<T>
         return reference.Value;
     }
 }
-
-#endif

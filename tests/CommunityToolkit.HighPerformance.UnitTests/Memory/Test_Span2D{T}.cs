@@ -46,7 +46,6 @@ public class Test_Span2DT
         Assert.AreEqual(0, empty4.Height);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public unsafe void Test_Span2DT_RefConstructor()
     {
@@ -81,7 +80,6 @@ public class Test_Span2DT
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, -2, 0));
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, 0, -5));
     }
-#endif
 
     [TestMethod]
     public unsafe void Test_Span2DT_PtrConstructor()
@@ -546,7 +544,6 @@ public class Test_Span2DT
         Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public unsafe void Test_Span2DT_Index_Indexer_1()
     {
@@ -624,7 +621,6 @@ public class Test_Span2DT
             _ = span2d[0..6, 2..^1];
         });
     }
-#endif
 
     [TestMethod]
     public void Test_Span2DT_Slice_1()
@@ -703,7 +699,6 @@ public class Test_Span2DT
         Assert.AreEqual(5, slice3[0, 0]);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_Span2DT_GetRowSpan()
     {
@@ -733,7 +728,6 @@ public class Test_Span2DT
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRowSpan(-1));
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRowSpan(5));
     }
-#endif
 
     [TestMethod]
     public void Test_Span2DT_TryGetSpan_From1DArray_1()
@@ -808,14 +802,8 @@ public class Test_Span2DT
         // Span<T> from a 2D array (reasons explained in the comments for the test above).
         bool success = span2d.TryGetSpan(out Span<int> span);
 
-#if NETFRAMEWORK
-        // Can't get a Span<T> over a T[,] array on .NET Standard 2.0
-        Assert.IsFalse(success);
-        Assert.AreEqual(0, span.Length);
-#else
         Assert.IsTrue(success);
         Assert.AreEqual(span.Length, span2d.Length);
-#endif
     }
 
     [TestMethod]

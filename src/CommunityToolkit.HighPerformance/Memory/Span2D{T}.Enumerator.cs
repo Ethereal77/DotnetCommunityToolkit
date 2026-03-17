@@ -2,17 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if !NET8_0_OR_GREATER
-using System;
-#endif
 using System.Runtime.CompilerServices;
 using CommunityToolkit.HighPerformance.Enumerables;
 using CommunityToolkit.HighPerformance.Memory.Internals;
-#if NETSTANDARD2_1_OR_GREATER && !NET8_0_OR_GREATER
-using System.Runtime.InteropServices;
-#elif NETSTANDARD2_0
-using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
-#endif
 
 namespace CommunityToolkit.HighPerformance;
 
@@ -37,13 +29,7 @@ partial struct Span2D<T>
         ref T r0 = ref DangerousGetReference();
         ref T r1 = ref Unsafe.Add(ref r0, startIndex);
 
-#if NETSTANDARD2_1_OR_GREATER
         return new(ref r1, Width, 1);
-#else
-        IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.Instance, ref r1);
-
-        return new(this.Instance, offset, this.width, 1);
-#endif
     }
 
     /// <summary>
@@ -63,13 +49,7 @@ partial struct Span2D<T>
         ref T r0 = ref DangerousGetReference();
         ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)column);
 
-#if NETSTANDARD2_1_OR_GREATER
         return new(ref r1, Height, this.Stride);
-#else
-        IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.Instance, ref r1);
-
-        return new(this.Instance, offset, Height, this.Stride);
-#endif
     }
 
     /// <summary>
@@ -86,7 +66,6 @@ partial struct Span2D<T>
     /// </summary>
     public ref struct Enumerator
     {
-#if NET8_0_OR_GREATER
         /// <summary>
         /// The <typeparamref name="T"/> reference for the <see cref="Span2D{T}"/> instance.
         /// </summary>
@@ -96,28 +75,6 @@ partial struct Span2D<T>
         /// The height of the specified 2D region.
         /// </summary>
         private readonly int height;
-#elif NETSTANDARD2_1_OR_GREATER
-        /// <summary>
-        /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
-        /// </summary>
-        /// <remarks>Just like in <see cref="Span2D{T}"/>, the length is the height of the 2D region.</remarks>
-        private readonly Span<T> span;
-#else
-        /// <summary>
-        /// The target <see cref="object"/> instance, if present.
-        /// </summary>
-        private readonly object? instance;
-
-        /// <summary>
-        /// The initial byte offset within <see cref="instance"/>.
-        /// </summary>
-        private readonly nint offset;
-
-        /// <summary>
-        /// The height of the specified 2D region.
-        /// </summary>
-        private readonly int height;
-#endif
 
         /// <summary>
         /// The width of the specified 2D region.
@@ -145,16 +102,8 @@ partial struct Span2D<T>
         /// <param name="span">The target <see cref="Span2D{T}"/> instance to enumerate.</param>
         internal Enumerator(Span2D<T> span)
         {
-#if NET8_0_OR_GREATER
             this.reference = ref span.reference;
             this.height = span.height;
-#elif NETSTANDARD2_1_OR_GREATER
-            this.span = span.span;
-#else
-            this.instance = span.Instance;
-            this.offset = span.Offset;
-            this.height = span.height;
-#endif
             this.width = span.width;
             this.stride = span.Stride;
             this.x = -1;
@@ -182,13 +131,7 @@ partial struct Span2D<T>
             // another row available: wrap to a new line and continue.
             this.x = 0;
 
-#if NET8_0_OR_GREATER
             return ++this.y < this.height;
-#elif NETSTANDARD2_1_OR_GREATER
-            return ++this.y < this.span.Length;
-#else
-            return ++this.y < this.height;
-#endif
         }
 
         /// <summary>
@@ -199,13 +142,7 @@ partial struct Span2D<T>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-#if NET8_0_OR_GREATER
                 ref T r0 = ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-                ref T r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
                 nint index = ((nint)(uint)this.y * (nint)(uint)this.stride) + (nint)(uint)this.x;
 
                 return ref Unsafe.Add(ref r0, index);

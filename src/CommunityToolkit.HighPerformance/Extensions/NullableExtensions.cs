@@ -7,8 +7,6 @@
 // will be correct. Exposing this API on older targets (especially .NET Standard)
 // is not guaranteed to be correct and could result in invalid memory accesses.
 
-#if NET6_0_OR_GREATER
-
 using System;
 using System.Runtime.CompilerServices;
 
@@ -35,11 +33,7 @@ public static class NullableExtensions
     public static ref T DangerousGetValueOrDefaultReference<T>(this ref T? value)
         where T : struct
     {
-#if NET8_0_OR_GREATER
         return ref Unsafe.AsRef(in Nullable.GetValueRefOrDefaultRef(in value));
-#else
-        return ref Unsafe.As<T?, RawNullableData<T>>(ref value).Value;
-#endif
     }
 
     /// <summary>
@@ -53,7 +47,6 @@ public static class NullableExtensions
     public static unsafe ref T DangerousGetValueOrNullReference<T>(ref this T? value)
         where T : struct
     {
-#if NET8_0_OR_GREATER
         ref T resultRef = ref *(T*)null;
 
         // This pattern ensures that the resulting code ends up having a single return, and a single
@@ -74,31 +67,5 @@ public static class NullableExtensions
         }
 
         return ref resultRef;
-#else
-        if (value.HasValue)
-        {
-            return ref Unsafe.As<T?, RawNullableData<T>>(ref value).Value;
-        }
-
-        return ref *(T*)null;
-#endif
     }
-
-#if !NET8_0_OR_GREATER
-    /// <summary>
-    /// Mapping type that reflects the internal layout of the <see cref="Nullable{T}"/> type.
-    /// See https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/Nullable.cs.
-    /// </summary>
-    /// <typeparam name="T">The value type wrapped by the current instance.</typeparam>
-    private struct RawNullableData<T>
-        where T : struct
-    {
-#pragma warning disable CS0649 // Unassigned fields
-        public bool HasValue;
-        public T Value;
-#pragma warning restore CS0649
-    }
-#endif
 }
-
-#endif

@@ -3,14 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if NET6_0_OR_GREATER
 using System.ComponentModel;
-#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-#if NET6_0_OR_GREATER
 using System.Text;
-#endif
 
 namespace CommunityToolkit.Diagnostics;
 
@@ -87,7 +83,6 @@ public static partial class Guard
         ThrowHelper.ThrowArgumentExceptionForIsFalse(name, message);
     }
 
-#if NET6_0_OR_GREATER
     /// <summary>
     /// Asserts that the input value must be <see langword="true"/>.
     /// </summary>
@@ -359,5 +354,4 @@ public static partial class Guard
             this.handler.AppendFormatted(value, alignment, format);
         }
     }
-#endif
 }

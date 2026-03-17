@@ -295,7 +295,6 @@ public partial class Test_ReadOnlySpanExtensions
         CollectionAssert.AreEqual(array, result);
     }
 
-#if NET8_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlySpanExtensions_AsSpan2D_Empty()
     {
@@ -320,5 +319,4 @@ public partial class Test_ReadOnlySpanExtensions
         Assert.AreEqual(7, empty3.Width);
         Assert.AreEqual(0, empty3.Height);
     }
-#endif
 }

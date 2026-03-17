@@ -5,10 +5,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.HighPerformance.Helpers;
-#if NETSTANDARD2_1_OR_GREATER
 using System.Runtime.InteropServices;
 using CommunityToolkit.HighPerformance.Buffers.Internals;
-#endif
 using CommunityToolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
@@ -27,13 +25,7 @@ partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReference<T>(this T[,,] array)
     {
-#if NET6_0_OR_GREATER
         return ref Unsafe.As<byte, T>(ref MemoryMarshal.GetArrayDataReference(array));
-#else
-        IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
-
-        return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-#endif
     }
 
     /// <summary>
@@ -54,7 +46,6 @@ partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReferenceAt<T>(this T[,,] array, int i, int j, int k)
     {
-#if NET6_0_OR_GREATER
         int height = array.GetLength(1);
         int width = array.GetLength(2);
         nint index =
@@ -64,21 +55,8 @@ partial class ArrayExtensions
         ref T ri = ref Unsafe.Add(ref r0, index);
 
         return ref ri;
-#else
-        int height = array.GetLength(1);
-        int width = array.GetLength(2);
-        nint index =
-            ((nint)(uint)i * (nint)(uint)height * (nint)(uint)width) +
-            ((nint)(uint)j * (nint)(uint)width) + (nint)(uint)k;
-        IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
-        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-        ref T ri = ref Unsafe.Add(ref r0, index);
-
-        return ref ri;
-#endif
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Creates a new <see cref="Memory{T}"/> over an input 3D <typeparamref name="T"/> array.
     /// </summary>
@@ -185,7 +163,6 @@ partial class ArrayExtensions
 
         return new RawObjectMemoryManager<T>(array, offset, length).Memory;
     }
-#endif
 
     /// <summary>
     /// Creates a new instance of the <see cref="Span2D{T}"/> struct wrapping a layer in a 3D array.

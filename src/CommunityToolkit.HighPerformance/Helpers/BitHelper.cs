@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Runtime.CompilerServices;
-#if NET6_0_OR_GREATER
 using System.Runtime.Intrinsics.X86;
-#endif
 
 namespace CommunityToolkit.HighPerformance.Helpers;
 
@@ -224,12 +222,10 @@ public static class BitHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint ExtractRange(uint value, byte start, byte length)
     {
-#if NET6_0_OR_GREATER
         if (Bmi1.IsSupported)
         {
             return Bmi1.BitFieldExtract(value, start, length);
         }
-#endif
 
         return (value >> start) & ((1u << length) - 1u);
     }
@@ -270,12 +266,10 @@ public static class BitHelper
         uint loadMask = highBits << start;
         uint storeMask = (flags & highBits) << start;
 
-#if NET6_0_OR_GREATER
         if (Bmi1.IsSupported)
         {
             return Bmi1.AndNot(loadMask, value) | storeMask;
         }
-#endif
 
         return (~loadMask & value) | storeMask;
     }
@@ -386,12 +380,10 @@ public static class BitHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ulong ExtractRange(ulong value, byte start, byte length)
     {
-#if NET6_0_OR_GREATER
         if (Bmi1.X64.IsSupported)
         {
             return Bmi1.X64.BitFieldExtract(value, start, length);
         }
-#endif
 
         return (value >> start) & ((1ul << length) - 1ul);
     }
@@ -432,12 +424,10 @@ public static class BitHelper
         ulong loadMask = highBits << start;
         ulong storeMask = (flags & highBits) << start;
 
-#if NET6_0_OR_GREATER
         if (Bmi1.X64.IsSupported)
         {
             return Bmi1.X64.AndNot(loadMask, value) | storeMask;
         }
-#endif
 
         return (~loadMask & value) | storeMask;
     }

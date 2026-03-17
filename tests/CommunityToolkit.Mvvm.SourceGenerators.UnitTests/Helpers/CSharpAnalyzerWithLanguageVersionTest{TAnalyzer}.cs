@@ -14,9 +14,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-#if NET472
-using System.ComponentModel.DataAnnotations;
-#endif
 
 namespace CommunityToolkit.Mvvm.SourceGenerators.UnitTests.Helpers;
 
@@ -53,14 +50,7 @@ internal sealed class CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> : CSharpA
     {
         CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
-#if NET8_0_OR_GREATER
         test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
-#elif NET6_0_OR_GREATER
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net60;
-#else
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.NetFramework.Net472.Default;
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(RequiredAttribute).Assembly.Location));
-#endif
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ObservableObject).Assembly.Location));
 
         test.ExpectedDiagnostics.AddRange(expected);
@@ -74,14 +64,7 @@ internal sealed class CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> : CSharpA
     {
         CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
-#if NET8_0_OR_GREATER
         test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
-#elif NET6_0_OR_GREATER
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net60;
-#else
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.NetFramework.Net472.Default;
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(RequiredAttribute).Assembly.Location));
-#endif
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ObservableObject).Assembly.Location));
 
         // Add any editorconfig properties, if present

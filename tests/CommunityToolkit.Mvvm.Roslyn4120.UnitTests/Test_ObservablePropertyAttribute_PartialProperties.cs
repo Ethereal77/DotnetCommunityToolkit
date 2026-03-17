@@ -8,9 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-#if NET6_0_OR_GREATER
 using System.Runtime.CompilerServices;
-#endif
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -621,7 +619,6 @@ public partial class Test_ObservablePropertyAttribute_PartialProperties
         Assert.IsEmpty(messages);
     }
 
-#if NET6_0_OR_GREATER
     // See https://github.com/CommunityToolkit/dotnet/issues/155
     [TestMethod]
     public void Test_ObservableProperty_NullabilityAnnotations_Simple()
@@ -712,7 +709,6 @@ public partial class Test_ObservablePropertyAttribute_PartialProperties
         Assert.AreEqual(NullabilityState.NotNull, rightInfo2.ReadState);
         Assert.AreEqual(NullabilityState.NotNull, rightInfo2.WriteState);
     }
-#endif
 
     // See https://github.com/CommunityToolkit/dotnet/issues/201
     [TestMethod]
@@ -1509,7 +1505,6 @@ public partial class Test_ObservablePropertyAttribute_PartialProperties
         public partial string? Name2 { get; set; }
     }
 
-#if NET6_0_OR_GREATER
     private partial class NullableRepro : ObservableObject
     {
         [ObservableProperty]
@@ -1525,7 +1520,6 @@ public partial class Test_ObservablePropertyAttribute_PartialProperties
         {
         }
     }
-#endif
 
     partial class ModelWithObservablePropertyAndBaseClassInAnotherAssembly : ModelWithObservableObjectAttribute
     {
@@ -1715,7 +1709,7 @@ public partial class Test_ObservablePropertyAttribute_PartialProperties
         Problem = -1,
         OK = 0
     }
-    
+
     private sealed partial class ModelWithDependentPropertyAndPropertyChanging : ObservableObject
     {
         [ObservableProperty]

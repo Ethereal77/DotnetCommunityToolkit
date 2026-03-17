@@ -4,13 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if NET6_0_OR_GREATER
 using System.Runtime.InteropServices;
-#endif
 using CommunityToolkit.HighPerformance.Enumerables;
-#if NETSTANDARD
-using CommunityToolkit.HighPerformance.Helpers;
-#endif
 using CommunityToolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
@@ -31,13 +26,7 @@ public static partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReference<T>(this T[] array)
     {
-#if NET6_0_OR_GREATER
         return ref MemoryMarshal.GetArrayDataReference(array);
-#else
-        IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
-
-        return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-#endif
     }
 
     /// <summary>
@@ -51,18 +40,10 @@ public static partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
     {
-#if NET6_0_OR_GREATER
         ref T r0 = ref MemoryMarshal.GetArrayDataReference(array);
         ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
         return ref ri;
-#else
-        IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
-        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-        ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
-
-        return ref ri;
-#endif
     }
 
     /// <summary>

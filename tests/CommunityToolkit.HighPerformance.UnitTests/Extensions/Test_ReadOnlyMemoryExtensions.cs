@@ -36,7 +36,6 @@ public class Test_ReadOnlyMemoryExtensions
         Assert.IsFalse(stream.CanWrite);
     }
 
-#if NET8_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlyMemoryExtensions_AsMemory2D_Empty()
     {
@@ -61,5 +60,4 @@ public class Test_ReadOnlyMemoryExtensions
         Assert.AreEqual(7, empty3.Width);
         Assert.AreEqual(0, empty3.Height);
     }
-#endif
 }

@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if NET6_0_OR_GREATER
 using System.Buffers;
-#endif
 using System.Runtime.CompilerServices;
 using CommunityToolkit.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -43,7 +41,7 @@ public class Test_ReadOnlySpan2DT
         Assert.AreEqual(0, empty3.Length);
         Assert.AreEqual(0, empty3.Width);
         Assert.AreEqual(0, empty3.Height);
-        
+
         ReadOnlySpan2D<string> empty4 = new([], 4, 0);
 
         Assert.IsTrue(empty4.IsEmpty);
@@ -59,7 +57,6 @@ public class Test_ReadOnlySpan2DT
         Assert.AreEqual(0, empty5.Height);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public unsafe void Test_ReadOnlySpan2DT_RefConstructor()
     {
@@ -86,7 +83,6 @@ public class Test_ReadOnlySpan2DT
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, -2, 0));
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, 0, -5));
     }
-#endif
 
     [TestMethod]
     public unsafe void Test_ReadOnlySpan2DT_PtrConstructor()
@@ -410,7 +406,6 @@ public class Test_ReadOnlySpan2DT
         Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public unsafe void Test_ReadOnlySpan2DT_Index_Indexer_1()
     {
@@ -488,7 +483,6 @@ public class Test_ReadOnlySpan2DT
             _ = span2d[0..6, 2..^1];
         });
     }
-#endif
 
     [TestMethod]
     public void Test_ReadOnlySpan2DT_Slice_1()
@@ -562,7 +556,6 @@ public class Test_ReadOnlySpan2DT
         Assert.AreEqual(5, slice3[0, 0]);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlySpan2DT_GetRowReadOnlySpan()
     {
@@ -586,7 +579,6 @@ public class Test_ReadOnlySpan2DT
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRowSpan(-1));
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRowSpan(5));
     }
-#endif
 
     [TestMethod]
     public void Test_ReadOnlySpan2DT_TryGetSpan_From1DArray_1()
@@ -642,14 +634,8 @@ public class Test_ReadOnlySpan2DT
 
         bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
 
-#if NETFRAMEWORK
-        // Can't get a ReadOnlySpan<T> over a T[,] array on .NET Standard 2.0
-        Assert.IsFalse(success);
-        Assert.AreEqual(0, span.Length);
-#else
         Assert.IsTrue(success);
         Assert.AreEqual(span.Length, span2d.Length);
-#endif
     }
 
     [TestMethod]
@@ -1046,7 +1032,6 @@ public class Test_ReadOnlySpan2DT
         CollectionAssert.AreEqual(result, row);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlySpan2DT_FromMemoryManager_Indexing()
     {
@@ -1079,10 +1064,8 @@ public class Test_ReadOnlySpan2DT
         Assert.AreEqual(11, shortSpan2DFromArray[0, 0]);
         Assert.AreEqual(11, shortSpan2DFromMemoryManager[0, 0]);
     }
-#endif
 }
 
-#if NET6_0_OR_GREATER
 public sealed class Memory2DTester<T> : MemoryManager<T>
     where T : unmanaged
 {
@@ -1104,7 +1087,7 @@ public sealed class Memory2DTester<T> : MemoryManager<T>
     public int Width { get; }
 
     public int Height { get; }
-    
+
     public Memory2D<T> GetMemory2DFromMemoryManager()
     {
         return new(this, Width + 1, Height - 1, Width - 1, 1);
@@ -1137,4 +1120,3 @@ public sealed class Memory2DTester<T> : MemoryManager<T>
     {
     }
 }
-#endif

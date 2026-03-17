@@ -566,7 +566,6 @@ public class Test_MemoryExtensions
         Assert.IsTrue(stream.CanWrite);
     }
 
-#if NET8_0_OR_GREATER
     [TestMethod]
     public void Test_MemoryExtensions_AsMemory2D_Empty()
     {
@@ -591,7 +590,6 @@ public class Test_MemoryExtensions
         Assert.AreEqual(7, empty3.Width);
         Assert.AreEqual(0, empty3.Height);
     }
-#endif
 
     private sealed class ArrayMemoryManager<T> : MemoryManager<T>
         where T : unmanaged

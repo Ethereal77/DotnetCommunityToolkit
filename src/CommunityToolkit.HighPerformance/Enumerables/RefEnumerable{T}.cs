@@ -4,14 +4,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD2_1_OR_GREATER
 using System.Runtime.InteropServices;
-#endif
 using CommunityToolkit.HighPerformance.Helpers.Internals;
 using CommunityToolkit.HighPerformance.Memory.Internals;
-#if !NETSTANDARD2_1_OR_GREATER
-using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
-#endif
 
 namespace CommunityToolkit.HighPerformance.Enumerables;
 
@@ -21,7 +16,6 @@ namespace CommunityToolkit.HighPerformance.Enumerables;
 /// <typeparam name="T">The type of items to enumerate.</typeparam>
 public readonly ref struct RefEnumerable<T>
 {
-#if NET8_0_OR_GREATER
     /// <summary>
     /// The <typeparamref name="T"/> reference for the <see cref="RefEnumerable{T}"/> instance.
     /// </summary>
@@ -31,23 +25,6 @@ public readonly ref struct RefEnumerable<T>
     /// The length of the current sequence.
     /// </summary>
     private readonly int length;
-#elif NETSTANDARD2_1_OR_GREATER
-    /// <summary>
-    /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
-    /// </summary>
-    /// <remarks>The <see cref="Span{T}.Length"/> field maps to the total available length.</remarks>
-    internal readonly Span<T> Span;
-#else
-    /// <summary>
-    /// The target <see cref="object"/> instance, if present.
-    /// </summary>
-    internal readonly object? Instance;
-
-    /// <summary>
-    /// The initial offset within <see cref="Instance"/>.
-    /// </summary>
-    internal readonly IntPtr Offset;
-#endif
 
     /// <summary>
     /// The distance between items in the sequence to enumerate.
@@ -55,7 +32,6 @@ public readonly ref struct RefEnumerable<T>
     /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
     internal readonly int Step;
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Initializes a new instance of the <see cref="RefEnumerable{T}"/> struct.
     /// </summary>
@@ -65,12 +41,8 @@ public readonly ref struct RefEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal RefEnumerable(ref T reference, int length, int step)
     {
-#if NET8_0_OR_GREATER
         this.Reference = ref reference;
         this.length = length;
-#else
-        this.Span = MemoryMarshal.CreateSpan(ref reference, length);
-#endif
         this.Step = step;
     }
 
@@ -98,24 +70,6 @@ public readonly ref struct RefEnumerable<T>
 
         return new(ref value, length, step);
     }
-#else
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RefEnumerable{T}"/> struct.
-    /// </summary>
-    /// <param name="instance">The target <see cref="object"/> instance.</param>
-    /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
-    /// <param name="length">The number of items in the sequence.</param>
-    /// <param name="step">The distance between items in the sequence to enumerate.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal RefEnumerable(object? instance, IntPtr offset, int length, int step)
-    {
-        this.Instance = instance;
-        this.Offset = offset;
-        this.Step = step;
-
-        Length = length;
-    }
-#endif
 
     /// <summary>
     /// Gets the total available length for the sequence.
@@ -123,13 +77,7 @@ public readonly ref struct RefEnumerable<T>
     public int Length
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if NET8_0_OR_GREATER
         get => this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        get => this.Span.Length;
-#else
-        get;
-#endif
     }
 
     /// <summary>
@@ -150,13 +98,7 @@ public readonly ref struct RefEnumerable<T>
                 ThrowHelper.ThrowIndexOutOfRangeException();
             }
 
-#if NET8_0_OR_GREATER
             ref T r0 = ref this.Reference;
-#elif NETSTANDARD2_1_OR_GREATER
-            ref T r0 = ref MemoryMarshal.GetReference(this.Span);
-#else
-            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-#endif
             nint offset = (nint)(uint)index * (nint)(uint)this.Step;
             ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -164,7 +106,6 @@ public readonly ref struct RefEnumerable<T>
         }
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Gets the element at the specified zero-based index.
     /// </summary>
@@ -178,19 +119,12 @@ public readonly ref struct RefEnumerable<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => ref this[index.GetOffset(Length)];
     }
-#endif
 
     /// <inheritdoc cref="System.Collections.IEnumerable.GetEnumerator"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Enumerator GetEnumerator()
     {
-#if NET8_0_OR_GREATER
         return new(ref this.Reference, this.length, this.Step);
-#elif NETSTANDARD2_1_OR_GREATER
-        return new(this.Span, this.Step);
-#else
-        return new(this.Instance, this.Offset, this.Length, this.Step);
-#endif
     }
 
     /// <summary>
@@ -198,7 +132,6 @@ public readonly ref struct RefEnumerable<T>
     /// </summary>
     public void Clear()
     {
-#if NET8_0_OR_GREATER
         // Fast path for contiguous items
         if (this.Step == 1)
         {
@@ -209,20 +142,6 @@ public readonly ref struct RefEnumerable<T>
 
         ref T r0 = ref this.Reference;
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        if (this.Step == 1)
-        {
-            this.Span.Clear();
-
-            return;
-        }
-
-        ref T r0 = ref this.Span.DangerousGetReference();
-        int length = this.Span.Length;
-#else
-        ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-        int length = this.Length;
-#endif
 
         RefEnumerableHelper.Clear(ref r0, (nint)(uint)length, (nint)(uint)this.Step);
     }
@@ -236,7 +155,6 @@ public readonly ref struct RefEnumerable<T>
     /// </exception>
     public void CopyTo(RefEnumerable<T> destination)
     {
-#if NET8_0_OR_GREATER
         if (this.Step == 1)
         {
             destination.CopyFrom(MemoryMarshal.CreateReadOnlySpan(ref this.Reference, this.length));
@@ -255,31 +173,6 @@ public readonly ref struct RefEnumerable<T>
         ref T destinationRef = ref destination.Reference;
         int sourceLength = this.length;
         int destinationLength = destination.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        if (this.Step == 1)
-        {
-            destination.CopyFrom(this.Span);
-
-            return;
-        }
-
-        if (destination.Step == 1)
-        {
-            CopyTo(destination.Span);
-
-            return;
-        }
-
-        ref T sourceRef = ref this.Span.DangerousGetReference();
-        ref T destinationRef = ref destination.Span.DangerousGetReference();
-        int sourceLength = this.Span.Length;
-        int destinationLength = destination.Span.Length;
-#else
-        ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-        ref T destinationRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(destination.Instance, destination.Offset);
-        int sourceLength = this.Length;
-        int destinationLength = destination.Length;
-#endif
 
         if ((uint)destinationLength < (uint)sourceLength)
         {
@@ -296,16 +189,8 @@ public readonly ref struct RefEnumerable<T>
     /// <returns>Whether or not the operation was successful.</returns>
     public bool TryCopyTo(RefEnumerable<T> destination)
     {
-#if NET8_0_OR_GREATER
         int sourceLength = this.length;
         int destinationLength = destination.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        int sourceLength = this.Span.Length;
-        int destinationLength = destination.Span.Length;
-#else
-        int sourceLength = this.Length;
-        int destinationLength = destination.Length;
-#endif
 
         if (destinationLength >= sourceLength)
         {
@@ -326,7 +211,6 @@ public readonly ref struct RefEnumerable<T>
     /// </exception>
     public void CopyTo(Span<T> destination)
     {
-#if NET8_0_OR_GREATER
         if (this.Step == 1)
         {
             MemoryMarshal.CreateReadOnlySpan(ref this.Reference, this.length).CopyTo(destination);
@@ -336,20 +220,7 @@ public readonly ref struct RefEnumerable<T>
 
         ref T sourceRef = ref this.Reference;
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        if (this.Step == 1)
-        {
-            this.Span.CopyTo(destination);
 
-            return;
-        }
-
-        ref T sourceRef = ref this.Span.DangerousGetReference();
-        int length = this.Span.Length;
-#else
-        ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-        int length = this.Length;
-#endif
         if ((uint)destination.Length < (uint)length)
         {
             ThrowArgumentExceptionForDestinationTooShort();
@@ -367,13 +238,7 @@ public readonly ref struct RefEnumerable<T>
     /// <returns>Whether or not the operation was successful.</returns>
     public bool TryCopyTo(Span<T> destination)
     {
-#if NET8_0_OR_GREATER
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        int length = this.Span.Length;
-#else
-        int length = this.Length;
-#endif
 
         if (destination.Length >= length)
         {
@@ -394,7 +259,6 @@ public readonly ref struct RefEnumerable<T>
     /// </exception>
     internal void CopyFrom(ReadOnlySpan<T> source)
     {
-#if NET8_0_OR_GREATER
         if (this.Step == 1)
         {
             source.CopyTo(MemoryMarshal.CreateSpan(ref this.Reference, this.length));
@@ -404,20 +268,6 @@ public readonly ref struct RefEnumerable<T>
 
         ref T destinationRef = ref this.Reference;
         int destinationLength = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        if (this.Step == 1)
-        {
-            source.CopyTo(this.Span);
-
-            return;
-        }
-
-        ref T destinationRef = ref this.Span.DangerousGetReference();
-        int destinationLength = this.Span.Length;
-#else
-        ref T destinationRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-        int destinationLength = this.Length;
-#endif
         ref T sourceRef = ref source.DangerousGetReference();
         int sourceLength = source.Length;
 
@@ -436,13 +286,7 @@ public readonly ref struct RefEnumerable<T>
     /// <returns>Whether or not the operation was successful.</returns>
     public bool TryCopyFrom(ReadOnlySpan<T> source)
     {
-#if NET8_0_OR_GREATER
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        int length = this.Span.Length;
-#else
-        int length = this.Length;
-#endif
 
         if (length >= source.Length)
         {
@@ -460,7 +304,6 @@ public readonly ref struct RefEnumerable<T>
     /// <param name="value">The value to assign to each element of the <see cref="RefEnumerable{T}"/> instance.</param>
     public void Fill(T value)
     {
-#if NET8_0_OR_GREATER
         if (this.Step == 1)
         {
             MemoryMarshal.CreateSpan(ref this.Reference, this.length).Fill(value);
@@ -470,20 +313,6 @@ public readonly ref struct RefEnumerable<T>
 
         ref T r0 = ref this.Reference;
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        if (this.Step == 1)
-        {
-            this.Span.Fill(value);
-
-            return;
-        }
-
-        ref T r0 = ref this.Span.DangerousGetReference();
-        int length = this.Span.Length;
-#else
-        ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
-        int length = this.Length;
-#endif
 
         RefEnumerableHelper.Fill(ref r0, (nint)(uint)length, (nint)(uint)this.Step, value);
     }
@@ -498,13 +327,7 @@ public readonly ref struct RefEnumerable<T>
     /// </remarks>
     public T[] ToArray()
     {
-#if NET8_0_OR_GREATER
         int length = this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-        int length = this.Span.Length;
-#else
-        int length = this.Length;
-#endif
 
         // Empty array if no data is mapped
         if (length == 0)
@@ -524,25 +347,11 @@ public readonly ref struct RefEnumerable<T>
     /// </summary>
     public ref struct Enumerator
     {
-#if NET8_0_OR_GREATER
         /// <inheritdoc cref="RefEnumerable{T}.Reference"/>
         private readonly ref T reference;
 
         /// <inheritdoc cref="RefEnumerable{T}.length"/>
         private readonly int length;
-#elif NETSTANDARD2_1_OR_GREATER
-        /// <inheritdoc cref="RefEnumerable{T}.Span"/>
-        private readonly Span<T> span;
-#else
-        /// <inheritdoc cref="RefEnumerable{T}.Instance"/>
-        private readonly object? instance;
-
-        /// <inheritdoc cref="RefEnumerable{T}.Offset"/>
-        private readonly IntPtr offset;
-
-        /// <inheritdoc cref="RefEnumerable{T}.Length"/>
-        private readonly int length;
-#endif
 
         /// <inheritdoc cref="RefEnumerable{T}.Step"/>
         private readonly int step;
@@ -552,7 +361,6 @@ public readonly ref struct RefEnumerable<T>
         /// </summary>
         private int position;
 
-#if NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="Enumerator"/> struct.
         /// </summary>
@@ -567,49 +375,12 @@ public readonly ref struct RefEnumerable<T>
             this.step = step;
             this.position = -1;
         }
-#elif NETSTANDARD2_1_OR_GREATER
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Enumerator"/> struct.
-        /// </summary>
-        /// <param name="span">The <see cref="Span{T}"/> instance with the info on the items to traverse.</param>
-        /// <param name="step">The distance between items in the sequence to enumerate.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Enumerator(Span<T> span, int step)
-        {
-            this.span = span;
-            this.step = step;
-            this.position = -1;
-        }
-#else
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Enumerator"/> struct.
-        /// </summary>
-        /// <param name="instance">The target <see cref="object"/> instance.</param>
-        /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
-        /// <param name="length">The number of items in the sequence.</param>
-        /// <param name="step">The distance between items in the sequence to enumerate.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Enumerator(object? instance, IntPtr offset, int length, int step)
-        {
-            this.instance = instance;
-            this.offset = offset;
-            this.length = length;
-            this.step = step;
-            this.position = -1;
-        }
-#endif
 
         /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-#if NET8_0_OR_GREATER
             return ++this.position < this.length;
-#elif NETSTANDARD2_1_OR_GREATER
-            return ++this.position < this.span.Length;
-#else
-            return ++this.position < this.length;
-#endif
         }
 
         /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
@@ -618,13 +389,7 @@ public readonly ref struct RefEnumerable<T>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-#if NET8_0_OR_GREATER
                 ref T r0 = ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-                ref T r0 = ref this.span.DangerousGetReference();
-#else
-                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
 
                 // Here we just offset by shifting down as if we were traversing a 2D array with a
                 // a single column, with the width of each row represented by the step, the height
@@ -640,7 +405,6 @@ public readonly ref struct RefEnumerable<T>
         }
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "length" parameter is invalid.
     /// </summary>
@@ -656,7 +420,6 @@ public readonly ref struct RefEnumerable<T>
     {
         throw new ArgumentOutOfRangeException("step");
     }
-#endif
 
     /// <summary>
     /// Throws an <see cref="ArgumentException"/> when the target span is too short.

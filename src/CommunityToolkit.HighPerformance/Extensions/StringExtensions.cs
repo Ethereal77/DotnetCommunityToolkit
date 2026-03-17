@@ -4,9 +4,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD
-using System.Runtime.InteropServices;
-#endif
 using CommunityToolkit.HighPerformance.Enumerables;
 using CommunityToolkit.HighPerformance.Helpers.Internals;
 
@@ -26,11 +23,7 @@ public static class StringExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref char DangerousGetReference(this string text)
     {
-#if NET6_0_OR_GREATER
         return ref Unsafe.AsRef(in text.GetPinnableReference());
-#else
-        return ref MemoryMarshal.GetReference(text.AsSpan());
-#endif
     }
 
     /// <summary>
@@ -43,11 +36,7 @@ public static class StringExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref char DangerousGetReferenceAt(this string text, int i)
     {
-#if NET6_0_OR_GREATER
         ref char r0 = ref Unsafe.AsRef(in text.GetPinnableReference());
-#else
-        ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
-#endif
         ref char ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
         return ref ri;

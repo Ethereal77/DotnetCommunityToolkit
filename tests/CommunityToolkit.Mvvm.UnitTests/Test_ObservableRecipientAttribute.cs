@@ -104,12 +104,7 @@ public partial class Test_ObservableRecipientAttribute
     [TestMethod]
     public void Test_ObservableRecipientAttribute_TrimmingAnnoations_IsActive()
     {
-        bool shouldHaveTrimmingAnnotations =
-#if NET6_0_OR_GREATER
-            true;
-#else
-            false;
-#endif
+        bool shouldHaveTrimmingAnnotations = true;
 
         MethodInfo isActivePropertySetter = typeof(TestRecipient).GetProperty(nameof(TestRecipient.IsActive))!.SetMethod!;
 
@@ -131,12 +126,7 @@ public partial class Test_ObservableRecipientAttribute
     [TestMethod]
     public void Test_ObservableRecipientAttribute_TrimmingAnnoations_OnActivated()
     {
-        bool shouldHaveTrimmingAnnotations =
-#if NET6_0_OR_GREATER
-            true;
-#else
-            false;
-#endif
+        bool shouldHaveTrimmingAnnotations = true;
 
         MethodInfo onActivatedMethod = typeof(TestRecipient).GetMethod("OnActivated", BindingFlags.Instance | BindingFlags.NonPublic)!;
         IEnumerable<Attribute> attributes = onActivatedMethod.GetCustomAttributes();

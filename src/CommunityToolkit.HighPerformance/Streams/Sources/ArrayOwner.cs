@@ -4,9 +4,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD2_1_OR_GREATER
 using System.Runtime.InteropServices;
-#endif
 
 namespace CommunityToolkit.HighPerformance.Streams;
 
@@ -65,13 +63,9 @@ internal readonly struct ArrayOwner : ISpanOwner
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if NETSTANDARD2_1_OR_GREATER
             ref byte r0 = ref this.array.DangerousGetReferenceAt(this.offset);
 
             return MemoryMarshal.CreateSpan(ref r0, this.length);
-#else
-            return this.array.AsSpan(this.offset, this.length);
-#endif
         }
     }
 

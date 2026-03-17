@@ -17,11 +17,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public string Name { get; set; }
                 }
@@ -36,11 +36,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0041:ObservableProperty|}]
                     public partial string Name { get; set; }
                 }
@@ -62,11 +62,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0041:ObservableProperty|}]
                     public partial string Name { get; set; }
                 }
@@ -87,11 +87,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public partial string Name { get; set; }
                 }
@@ -112,11 +112,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public string Name { get; set; }
                 }
@@ -131,11 +131,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public partial string Name { get; set; }
                 }
@@ -155,11 +155,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string name;
                 }
@@ -174,11 +174,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0042:name|};
                 }
@@ -194,11 +194,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0042:name|};
                 }
@@ -214,11 +214,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public string Name { get; set; }
                 }
@@ -233,11 +233,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public partial string {|CS9248:Name|} { get; set; }
                 }
@@ -252,11 +252,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     internal partial string {|CS9248:Name|} { get; private set; }
                 }
@@ -271,11 +271,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     protected internal partial string {|CS9248:Name|} { get; private protected set; }
                 }
@@ -290,11 +290,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0043:ObservableProperty|}]
                     public string Name { get; set; }
                 }
@@ -309,11 +309,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0043:ObservableProperty|}]
                     public static partial string {|CS9248:Name|} { get; set; }
                 }
@@ -328,11 +328,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0043:ObservableProperty|}]
                     public partial string {|CS9248:Name|} { get; }
                 }
@@ -347,11 +347,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0043:ObservableProperty|}]
                     public partial string {|CS9248:Name|} { set; }
                 }
@@ -364,33 +364,18 @@ partial class Test_SourceGeneratorsDiagnostics
     [TestMethod]
     public async Task InvalidPropertyLevelObservablePropertyAttributeAnalyzer_OnInitOnlyProperty_Warns()
     {
-#if NET6_0_OR_GREATER
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0043:ObservableProperty|}]
                     public partial string {|CS9248:Name|} { get; init; }
                 }
             }
             """;
-#else
-        const string source = """
-            using CommunityToolkit.Mvvm.ComponentModel;
-            
-            namespace MyApp
-            {
-                public partial class SampleViewModel : ObservableObject
-                {            
-                    [{|MVVMTK0043:ObservableProperty|}]
-                    public partial string {|CS9248:Name|} { get; {|CS0518:init|}; }
-                }
-            }
-            """;
-#endif
 
         await VerifyAnalyzerDiagnosticsAndSuccessfulGeneration<InvalidPropertyLevelObservablePropertyAttributeAnalyzer>(source, LanguageVersion.Preview, [], ["CS0518", "CS9248"]);
     }
@@ -400,11 +385,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private static string name;
                 }
@@ -419,11 +404,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private static string name;
                 }
@@ -441,11 +426,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string name;
                 }
@@ -463,11 +448,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string name;
                 }
@@ -485,11 +470,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string name;
                 }
@@ -507,11 +492,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -530,11 +515,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -553,11 +538,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0051:ObservableProperty|}]
                     private string {|MVVMTK0045:name|};
                 }
@@ -575,11 +560,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [{|MVVMTK0051:ObservableProperty|}]
                     private string {|MVVMTK0045:f1|};
 
@@ -591,7 +576,7 @@ partial class Test_SourceGeneratorsDiagnostics
                 }
 
                 public partial class OtherViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:f1|};
 
@@ -606,7 +591,7 @@ partial class Test_SourceGeneratorsDiagnostics
             namespace OtherNamespace
             {
                 public partial class YetAnotherViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:f1|};
 
@@ -631,11 +616,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string name;
                 }
@@ -653,11 +638,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -675,11 +660,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -697,11 +682,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -724,11 +709,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     private string {|MVVMTK0045:name|};
                 }
@@ -754,7 +739,7 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty]
@@ -790,7 +775,7 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty]
@@ -826,7 +811,7 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty(["Name"], [])]
@@ -863,12 +848,12 @@ partial class Test_SourceGeneratorsDiagnostics
             using System;
             using CommunityToolkit.Mvvm.ComponentModel;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty(["OtherName"], [])]
                 public partial class SampleViewModel : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
@@ -900,16 +885,16 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty(["OtherMethod"], [])]
                 public partial class SampleViewModel : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
-                {            
+                {
                     [RelayCommand]
                     private void DoStuff()
                     {
@@ -938,12 +923,12 @@ partial class Test_SourceGeneratorsDiagnostics
             using System;
             using CommunityToolkit.Mvvm.ComponentModel;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty]
                 public partial class {|MVVMTK0047:SampleViewModel|} : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
@@ -972,12 +957,12 @@ partial class Test_SourceGeneratorsDiagnostics
             using System;
             using CommunityToolkit.Mvvm.ComponentModel;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty(["Name"], [])]
                 public partial class {|MVVMTK0047:SampleViewModel|} : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
@@ -1009,16 +994,16 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty]
                 public partial class {|MVVMTK0048:SampleViewModel|} : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
-                {            
+                {
                     [RelayCommand]
                     private void DoStuff()
                     {
@@ -1046,16 +1031,16 @@ partial class Test_SourceGeneratorsDiagnostics
             using CommunityToolkit.Mvvm.ComponentModel;
             using CommunityToolkit.Mvvm.Input;
             using WinRT;
-            
+
             namespace MyApp
             {
                 [GeneratedBindableCustomProperty(["DoStuffCommand"], [])]
                 public partial class {|MVVMTK0048:SampleViewModel|} : BaseViewModel
-                {                    
+                {
                 }
 
                 public partial class BaseViewModel : ObservableObject
-                {            
+                {
                     [RelayCommand]
                     private void DoStuff()
                     {
@@ -1082,11 +1067,11 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public partial string {|CS9248:Name|} { get; set; }
                 }
@@ -1101,7 +1086,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
@@ -1126,11 +1111,11 @@ partial class Test_SourceGeneratorsDiagnostics
         const string source = """
             using System.CodeDom.Compiler;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
+                {
                     [ObservableProperty]
                     public partial string Name { get; set; }
 
@@ -1157,8 +1142,8 @@ partial class Test_SourceGeneratorsDiagnostics
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
-                    [{|MVVMTK0052:ObservableProperty|}]            
+                {
+                    [{|MVVMTK0052:ObservableProperty|}]
                     public partial string Name { get; set; }
 
                     [GeneratedCode("Some.Other.Generator", "1.0.0")]
@@ -1179,12 +1164,12 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
-                {            
-                    [{|MVVMTK0052:ObservableProperty|}]            
+                {
+                    [{|MVVMTK0052:ObservableProperty|}]
                     public partial string Name { get; set; }
 
                     public partial string Name
@@ -1204,7 +1189,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
@@ -1223,7 +1208,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
@@ -1242,7 +1227,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
@@ -1263,7 +1248,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public partial class SampleViewModel : ObservableObject
@@ -1282,7 +1267,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public unsafe partial class SampleViewModel : ObservableObject
@@ -1301,7 +1286,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp
             {
                 public unsafe partial class SampleViewModel : ObservableObject
@@ -1320,7 +1305,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1337,7 +1322,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : MyBaseViewModel
@@ -1365,7 +1350,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1385,7 +1370,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1405,7 +1390,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1431,7 +1416,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1457,7 +1442,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1500,7 +1485,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1522,7 +1507,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1544,7 +1529,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject
@@ -1565,7 +1550,7 @@ partial class Test_SourceGeneratorsDiagnostics
     {
         const string source = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             namespace MyApp;
 
             public partial class SampleViewModel : ObservableObject

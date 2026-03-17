@@ -13,11 +13,9 @@
   <Folder Name="/Solution Items/Build/">
     <File Path="build/Community.Toolkit.Common.props" />
     <File Path="build/Community.Toolkit.Common.targets" />
-    <File Path="build/header.txt" />
     <File Path="build/nuget.png" />
     <File Path="build/Sign-Package.ps1" />
     <File Path="build/SignClientSettings.json" />
-    <File Path="build/Update-Headers.ps1" />
   </Folder>
   <Folder Name="/Solution Items/Docs/">
     <File Path="CODE_OF_CONDUCT.md" />

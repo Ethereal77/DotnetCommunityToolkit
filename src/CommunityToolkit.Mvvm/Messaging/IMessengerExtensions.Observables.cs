@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if NET8_0_OR_GREATER && WINDOWS
+#if WINDOWS
 using WinRT;
 #endif
 
@@ -76,7 +76,7 @@ partial class IMessengerExtensions
         /// <summary>
         /// An <see cref="IRecipient{TMessage}"/> implementation for <see cref="Observable{TMessage}"/>.
         /// </summary>
-#if NET8_0_OR_GREATER && WINDOWS
+#if WINDOWS
         [WinRTExposedType(typeof(WinRTManagedOnlyTypeDetails))]
 #endif
         private sealed class Recipient : IRecipient<TMessage>, IDisposable
@@ -157,7 +157,7 @@ partial class IMessengerExtensions
         /// <summary>
         /// An <see cref="IRecipient{TMessage}"/> implementation for <see cref="Observable{TMessage, TToken}"/>.
         /// </summary>
-#if NET8_0_OR_GREATER && WINDOWS
+#if WINDOWS
         [WinRTExposedType(typeof(WinRTManagedOnlyTypeDetails))]
 #endif
         private sealed class Recipient : IRecipient<TMessage>, IDisposable

@@ -51,20 +51,11 @@ internal sealed class ArrayMemoryManager<TFrom, TTo> : MemoryManager<TTo>, IMemo
     /// <inheritdoc/>
     public override Span<TTo> GetSpan()
     {
-#if NETSTANDARD2_1_OR_GREATER
         ref TFrom r0 = ref this.array.DangerousGetReferenceAt(this.offset);
         ref TTo r1 = ref Unsafe.As<TFrom, TTo>(ref r0);
         int length = RuntimeHelpers.ConvertLength<TFrom, TTo>(this.length);
 
         return MemoryMarshal.CreateSpan(ref r1, length);
-#else
-        Span<TFrom> span = this.array.AsSpan(this.offset, this.length);
-
-        // We rely on MemoryMarshal.Cast here to deal with calculating the effective
-        // size of the new span to return. This will also make the behavior consistent
-        // for users that are both using this type as well as casting spans directly.
-        return MemoryMarshal.Cast<TFrom, TTo>(span);
-#endif
     }
 
     /// <inheritdoc/>

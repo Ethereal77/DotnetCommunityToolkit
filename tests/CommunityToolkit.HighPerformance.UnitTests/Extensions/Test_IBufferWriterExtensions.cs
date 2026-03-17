@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if NET6_0_OR_GREATER
 using System.Buffers;
-#endif
 using System.IO;
 using CommunityToolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -127,7 +125,7 @@ public class Test_IBufferWriterExtensions
 
         // Leave only one byte of free capacity
         int count = writer.Capacity - 1;
-        
+
         for (int i = 0; i < count; i++)
         {
             writer.Write<byte>(0);

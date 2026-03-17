@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1_OR_GREATER
-
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
@@ -93,5 +91,3 @@ internal sealed class RawObjectMemoryManager<T> : MemoryManager<T>
         throw new ArgumentOutOfRangeException("elementIndex", "The input element index was not in the valid range");
     }
 }
-
-#endif

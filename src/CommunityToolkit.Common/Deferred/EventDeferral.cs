@@ -4,9 +4,7 @@
 
 using System;
 using System.ComponentModel;
-#if NET8_0_OR_GREATER
 using System.Runtime.CompilerServices;
-#endif
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,11 +17,7 @@ namespace CommunityToolkit.Common.Deferred;
 /// </summary>
 public class EventDeferral : IDisposable
 {
-#if NET8_0_OR_GREATER
     private readonly TaskCompletionSource taskCompletionSource = new();
-#else
-    private readonly TaskCompletionSource<object?> taskCompletionSource = new();
-#endif
 
     internal EventDeferral()
     {
@@ -34,11 +28,7 @@ public class EventDeferral : IDisposable
     /// </summary>
     public void Complete()
     {
-#if NET8_0_OR_GREATER
         this.taskCompletionSource.TrySetResult();
-#else
-        this.taskCompletionSource.TrySetResult(null);
-#endif
     }
 
     /// <summary>
@@ -52,18 +42,10 @@ public class EventDeferral : IDisposable
     public async Task WaitForCompletion(CancellationToken cancellationToken)
     {
         using (cancellationToken.Register(
-#if NET8_0_OR_GREATER
             callback: static obj => Unsafe.As<EventDeferral>(obj!).taskCompletionSource.TrySetCanceled(),
-#else
-            callback: static obj => ((EventDeferral)obj).taskCompletionSource.TrySetCanceled(),
-#endif
             state: this))
         {
-#if NET8_0_OR_GREATER
             await this.taskCompletionSource.Task;
-#else
-            _ = await this.taskCompletionSource.Task;
-#endif
         }
     }
 

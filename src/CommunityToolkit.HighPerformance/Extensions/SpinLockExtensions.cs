@@ -80,7 +80,6 @@ public static class SpinLockExtensions
         }
     }
 
-#if NET8_0_OR_GREATER
     /// <summary>
     /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
     /// This extension should be used though a <see langword="using"/> block or statement:
@@ -144,5 +143,4 @@ public static class SpinLockExtensions
             }
         }
     }
-#endif
 }

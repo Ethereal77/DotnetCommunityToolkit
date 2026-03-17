@@ -14,7 +14,6 @@ namespace CommunityToolkit.Mvvm.Internals.UnitTests;
 [TestClass]
 public partial class Test_Messenger
 {
-#if NET6_0_OR_GREATER // Auto-trimming is disabled on .NET Framework
     [TestMethod]
     public void Test_WeakReferenceMessenger_AutoCleanup()
     {
@@ -61,7 +60,6 @@ public partial class Test_Messenger
 
         GC.KeepAlive(messenger);
     }
-#endif
 
     [TestMethod]
     public void Test_StrongReferenceMessenger_AutoTrimming_UnregisterAll()

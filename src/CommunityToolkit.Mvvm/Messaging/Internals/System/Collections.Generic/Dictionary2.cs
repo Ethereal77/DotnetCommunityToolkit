@@ -93,11 +93,7 @@ internal class Dictionary2<TKey, TValue> : IDictionary2<TKey, TValue>
 
         if (count > 0)
         {
-#if NETSTANDARD2_0_OR_GREATER
             Array.Clear(this.buckets!, 0, this.buckets!.Length);
-#else
-            Array.Clear(this.buckets!);
-#endif
 
             this.count = 0;
             this.freeList = -1;
@@ -164,16 +160,12 @@ internal class Dictionary2<TKey, TValue> : IDictionary2<TKey, TValue>
 
                 entry.Next = StartOfFreeList - this.freeList;
 
-#if NETSTANDARD2_1 || NET6_0_OR_GREATER
                 if (RuntimeHelpers.IsReferenceOrContainsReferences<TKey>())
-#endif
                 {
                     entry.Key = default!;
                 }
 
-#if NETSTANDARD2_1 || NET6_0_OR_GREATER
                 if (RuntimeHelpers.IsReferenceOrContainsReferences<TValue>())
-#endif
                 {
                     entry.Value = default!;
                 }

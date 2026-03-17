@@ -158,7 +158,6 @@ public static class ReadOnlySpanExtensions
         return ref r1;
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Returns a <see cref="ReadOnlySpan2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlySpan{T}"/> instance.
     /// </summary>
@@ -200,7 +199,6 @@ public static class ReadOnlySpanExtensions
     {
         return new(span, offset, height, width, pitch);
     }
-#endif
 
     /// <summary>
     /// Gets the index of an element of a given <see cref="ReadOnlySpan{T}"/> from its reference.

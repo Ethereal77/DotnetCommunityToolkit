@@ -103,25 +103,6 @@ public static class IBufferWriterExtensions
         writer.Advance(source.Length);
     }
 
-#if !NETSTANDARD2_1_OR_GREATER
-    /// <summary>
-    /// Writes a series of items of a specified type into a target <see cref="IBufferWriter{T}"/> instance.
-    /// </summary>
-    /// <typeparam name="T">The type of value to write.</typeparam>
-    /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
-    /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> to write to <paramref name="writer"/>.</param>
-    /// <exception cref="ArgumentException">Thrown if <paramref name="writer"/> reaches the end.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Write<T>(this IBufferWriter<T> writer, ReadOnlySpan<T> span)
-    {
-        Span<T> destination = writer.GetSpan(span.Length);
-
-        span.CopyTo(destination);
-
-        writer.Advance(span.Length);
-    }
-#endif
-
     /// <summary>
     /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target writer.
     /// </summary>

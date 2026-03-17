@@ -26,7 +26,7 @@ internal static class SourceProductionContextExtensions
         // This will only ever be done when code generation is executed again anyway, which is a slow path.
         name = name.Replace('+', '.').Replace('`', '_');
 #endif
-        
+
         // Add the UTF8 text for the input compilation unit
         context.AddSource(name, compilationUnit.GetText(Encoding.UTF8));
     }

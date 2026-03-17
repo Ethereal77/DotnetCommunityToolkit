@@ -13,7 +13,6 @@ namespace CommunityToolkit.HighPerformance.Helpers;
 /// </summary>
 public static partial class ParallelHelper
 {
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Executes a specified action in an optimized parallel loop.
     /// </summary>
@@ -85,7 +84,6 @@ public static partial class ParallelHelper
 
         For(start, end, action, minimumActionsPerThread);
     }
-#endif
 
     /// <summary>
     /// Executes a specified action in an optimized parallel loop.

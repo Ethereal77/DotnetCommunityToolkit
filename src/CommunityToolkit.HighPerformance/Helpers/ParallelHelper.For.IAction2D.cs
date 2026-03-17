@@ -12,7 +12,6 @@ namespace CommunityToolkit.HighPerformance.Helpers;
 /// <inheritdoc/>
 partial class ParallelHelper
 {
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Executes a specified action in an optimized parallel loop.
     /// </summary>
@@ -91,7 +90,6 @@ partial class ParallelHelper
 
         For2D(top, bottom, left, right, action, minimumActionsPerThread);
     }
-#endif
 
     /// <summary>
     /// Executes a specified action in an optimized parallel loop.

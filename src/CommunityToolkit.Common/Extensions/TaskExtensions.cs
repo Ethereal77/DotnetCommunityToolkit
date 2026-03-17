@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NET6_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -26,9 +24,7 @@ public static class TaskExtensions
     /// and uses reflection to access the <see cref="Task{TResult}.Result"/> property and boxes the result if it's
     /// a value type, which adds overhead. It should only be used when using generics is not possible.
     /// </remarks>
-#if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("This method uses reflection to try to access the Task<T>.Result property of the input Task instance.")]
-#endif
     public static object? GetResultOrDefault(this Task task)
     {
         // Check if the instance is a completed Task

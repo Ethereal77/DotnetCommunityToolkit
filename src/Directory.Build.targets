@@ -2,11 +2,6 @@
 <Project>
   <Import Project="..\Directory.Build.targets" />
 
-  <!-- Define NETSTANDARD2_1_OR_GREATER for .NET Standard 2.1 targets and above -->
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.1'))">
-    <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
-  </PropertyGroup>
-
   <!-- Set the AOT property directly on .NET 8 and above -->
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
     <IsAotCompatible>true</IsAotCompatible>

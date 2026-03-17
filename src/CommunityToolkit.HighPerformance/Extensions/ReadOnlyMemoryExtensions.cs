@@ -18,7 +18,6 @@ namespace CommunityToolkit.HighPerformance;
 /// </summary>
 public static class ReadOnlyMemoryExtensions
 {
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Returns a <see cref="ReadOnlyMemory2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlyMemory{T}"/> instance.
     /// </summary>
@@ -60,7 +59,6 @@ public static class ReadOnlyMemoryExtensions
     {
         return new(memory, offset, height, width, pitch);
     }
-#endif
 
     /// <summary>
     /// Casts a <see cref="ReadOnlyMemory{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlyMemory{T}"/> of bytes.

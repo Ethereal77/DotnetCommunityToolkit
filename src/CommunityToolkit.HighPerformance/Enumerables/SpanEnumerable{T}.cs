@@ -63,7 +63,6 @@ public ref struct SpanEnumerable<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if NETSTANDARD2_1_OR_GREATER
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
@@ -74,9 +73,6 @@ public ref struct SpanEnumerable<T>
             // current original offset. This is not possible on eg. .NET Standard 2.0,
             // as we lack the API to create Span<T>-s from arbitrary references.
             return new(ref ri, this.index);
-#else
-            return new(this.span, this.index);
-#endif
         }
     }
 
@@ -86,7 +82,6 @@ public ref struct SpanEnumerable<T>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly ref struct Item
     {
-#if NET8_0_OR_GREATER
         /// <summary>
         /// The <typeparamref name="T"/> reference for the <see cref="Item"/> instance.
         /// </summary>
@@ -96,14 +91,7 @@ public ref struct SpanEnumerable<T>
         /// The index of the current <see cref="Item"/> instance.
         /// </summary>
         private readonly int index;
-#else
-        /// <summary>
-        /// The source <see cref="Span{T}"/> instance.
-        /// </summary>
-        private readonly Span<T> span;
-#endif
 
-#if NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="Item"/> struct.
         /// </summary>
@@ -112,51 +100,17 @@ public ref struct SpanEnumerable<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Item(ref T value, int index)
         {
-#if NET8_0_OR_GREATER
             this.reference = ref value;
             this.index = index;
-#else
-            this.span = MemoryMarshal.CreateSpan(ref value, index);
-#endif
         }
-#else
-        /// <summary>
-        /// The current index within <see cref="span"/>.
-        /// </summary>
-        private readonly int index;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Item"/> struct.
+        /// Gets the reference to the current value.
         /// </summary>
-        /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
-        /// <param name="index">The current index within <paramref name="span"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Item(Span<T> span, int index)
-        {
-            this.span = span;
-            this.index = index;
-        }
-#endif
-
-            /// <summary>
-            /// Gets the reference to the current value.
-            /// </summary>
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-#if NET8_0_OR_GREATER
-                return ref this.reference;
-#elif NETSTANDARD2_1_OR_GREATER
-                return ref MemoryMarshal.GetReference(this.span);
-#else
-                ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
-
-                return ref ri;
-#endif
-            }
+            get => ref this.reference;
         }
 
         /// <summary>
@@ -165,16 +119,7 @@ public ref struct SpanEnumerable<T>
         public int Index
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-#if NET8_0_OR_GREATER
-                return this.index;
-#elif NETSTANDARD2_1_OR_GREATER
-                return this.span.Length;
-#else
-                return this.index;
-#endif
-            }
+            get => this.index;
         }
     }
 }

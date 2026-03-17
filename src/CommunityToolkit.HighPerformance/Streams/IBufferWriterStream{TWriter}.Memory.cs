@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1_OR_GREATER
-
 using System;
 using System.IO;
 using System.Threading;
@@ -71,5 +69,3 @@ partial class IBufferWriterStream<TWriter>
         this.bufferWriter.Advance(buffer.Length);
     }
 }
-
-#endif

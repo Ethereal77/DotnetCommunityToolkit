@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NET6_0_OR_GREATER
-
 using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -86,5 +84,3 @@ public class Test_NullableExtensions
         Test<Memory<string>>();
     }
 }
-
-#endif

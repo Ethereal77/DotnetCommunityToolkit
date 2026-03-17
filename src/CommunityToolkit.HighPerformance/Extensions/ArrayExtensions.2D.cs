@@ -4,10 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD2_1_OR_GREATER
 using System.Runtime.InteropServices;
 using CommunityToolkit.HighPerformance.Buffers.Internals;
-#endif
 using CommunityToolkit.HighPerformance.Enumerables;
 using CommunityToolkit.HighPerformance.Helpers;
 using CommunityToolkit.HighPerformance.Helpers.Internals;
@@ -28,13 +26,7 @@ partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReference<T>(this T[,] array)
     {
-#if NET6_0_OR_GREATER
         return ref Unsafe.As<byte, T>(ref MemoryMarshal.GetArrayDataReference(array));
-#else
-        IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
-
-        return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-#endif
     }
 
     /// <summary>
@@ -54,22 +46,12 @@ partial class ArrayExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
     {
-#if NET6_0_OR_GREATER
         int width = array.GetLength(1);
         nint index = ((nint)(uint)i * (nint)(uint)width) + (nint)(uint)j;
         ref T r0 = ref Unsafe.As<byte, T>(ref MemoryMarshal.GetArrayDataReference(array));
         ref T ri = ref Unsafe.Add(ref r0, index);
 
         return ref ri;
-#else
-        int width = array.GetLength(1);
-        nint index = ((nint)(uint)i * (nint)(uint)width) + (nint)(uint)j;
-        IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
-        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
-        ref T ri = ref Unsafe.Add(ref r0, index);
-
-        return ref ri;
-#endif
     }
 
     /// <summary>
@@ -98,16 +80,9 @@ partial class ArrayExtensions
 
         int width = array.GetLength(1);
 
-#if NETSTANDARD2_1_OR_GREATER
         ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
         return new(ref r0, width, 1);
-#else
-        ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
-        IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
-
-        return new(array, offset, width, 1);
-#endif
     }
 
     /// <summary>
@@ -151,16 +126,9 @@ partial class ArrayExtensions
 
         int height = array.GetLength(0);
 
-#if NETSTANDARD2_1_OR_GREATER
         ref T r0 = ref array.DangerousGetReferenceAt(0, column);
 
         return new(ref r0, height, width);
-#else
-        ref T r0 = ref array.DangerousGetReferenceAt(0, column);
-        IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
-
-        return new(array, offset, height, width);
-#endif
     }
 
     /// <summary>
@@ -233,7 +201,6 @@ partial class ArrayExtensions
         return new(array, row, column, height, width);
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Returns a <see cref="Span{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.
     /// </summary>
@@ -338,7 +305,6 @@ partial class ArrayExtensions
 
         return MemoryMarshal.CreateSpan(ref r0, length);
     }
-#endif
 
     /// <summary>
     /// Counts the number of occurrences of a given value into a target 2D <typeparamref name="T"/> array instance.

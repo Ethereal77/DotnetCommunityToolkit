@@ -419,7 +419,6 @@ public partial class Test_ArrayExtensions
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => array.GetColumn(0).ToArray());
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ArrayExtensions_2D_AsSpan_Empty()
     {
@@ -454,5 +453,4 @@ public partial class Test_ArrayExtensions
         // ensure they point to the right element back in the original array.
         Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
     }
-#endif
 }

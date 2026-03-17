@@ -1140,7 +1140,7 @@ partial class ObservablePropertyGenerator
             {
                 getterFieldIdentifierName = "field";
                 getterFieldExpression = setterFieldExpression = IdentifierName(getterFieldIdentifierName);
-            }    
+            }
             else if (propertyInfo.FieldName == "value")
             {
                 // In case the backing field is exactly named "value", we need to add the "this." prefix to ensure that comparisons and assignments
@@ -1482,7 +1482,7 @@ partial class ObservablePropertyGenerator
                         Comment($"/// <remarks>This method is invoked right before the value of <see cref=\"{propertyInfo.PropertyName}\"/> is changed.</remarks>")), SyntaxKind.OpenBracketToken, TriviaList())))
                 .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            // Get the type for the 'oldValue' parameter (which can be null on first invocation) 
+            // Get the type for the 'oldValue' parameter (which can be null on first invocation)
             TypeSyntax oldValueTypeSyntax = GetPropertyTypeForOldValue(propertyInfo);
 
             // Construct the generated method as follows:

@@ -3,10 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if !NET6_0_OR_GREATER
-using System.Collections.Generic;
-using System.Linq;
-#endif
 using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -95,18 +91,12 @@ public class Test_ObservableRecipient
     [TestMethod]
     public void Test_IRecipient_VerifyTrimmingAnnotation()
     {
-#if NET6_0_OR_GREATER
         System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute? attribute =
             typeof(Messaging.__Internals.__IMessengerExtensions)
             .GetCustomAttribute<System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute>();
 
         Assert.IsNotNull(attribute);
         Assert.AreEqual(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicMethods, attribute.MemberTypes);
-#else
-        IEnumerable<Attribute> attributes = typeof(Messaging.__Internals.__IMessengerExtensions).GetCustomAttributes();
-
-        Assert.IsFalse(attributes.Any(static a => a.GetType().Name is "DynamicallyAccessedMembersAttribute"));
-#endif
     }
 
     public class SomeRecipient<T> : ObservableRecipient

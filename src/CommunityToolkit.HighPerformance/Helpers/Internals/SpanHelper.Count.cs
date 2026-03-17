@@ -69,7 +69,6 @@ internal static partial class SpanHelper
             return CountSimd(ref r1, length, target);
         }
 
-#if NET6_0_OR_GREATER
         if (typeof(T) == typeof(nint) ||
             typeof(T) == typeof(nuint))
         {
@@ -78,7 +77,6 @@ internal static partial class SpanHelper
 
             return CountSimd(ref r1, length, target);
         }
-#endif
 
         return CountSequential(ref r0, length, value);
     }
@@ -240,11 +238,7 @@ internal static partial class SpanHelper
                     offset += Vector<T>.Count;
                 }
 
-#if NET6_0_OR_GREATER
                 result += CastToNativeInt(Vector.Sum(partials));
-#else
-                result += CastToNativeInt(Vector.Dot(partials, Vector<T>.One));
-#endif
                 length -= offset - initialOffset;
             }
             while (length >= Vector<T>.Count);
@@ -335,12 +329,10 @@ internal static partial class SpanHelper
             return (nint)(void*)long.MaxValue;
         }
 
-#if NET6_0_OR_GREATER
         if (typeof(T) == typeof(nint))
         {
             return nint.MaxValue;
         }
-#endif
 
         throw null!;
     }
@@ -375,12 +367,10 @@ internal static partial class SpanHelper
             return (nint)(ulong)(long)(object)value;
         }
 
-#if NET6_0_OR_GREATER
         if (typeof(T) == typeof(nint))
         {
             return (nint)(object)value;
         }
-#endif
 
         throw null!;
     }

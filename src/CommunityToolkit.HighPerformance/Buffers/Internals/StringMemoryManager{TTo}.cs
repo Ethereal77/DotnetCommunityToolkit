@@ -49,18 +49,11 @@ internal sealed class StringMemoryManager<TTo> : MemoryManager<TTo>, IMemoryMana
     /// <inheritdoc/>
     public override Span<TTo> GetSpan()
     {
-#if NETSTANDARD2_1_OR_GREATER
         ref char r0 = ref this.text.DangerousGetReferenceAt(this.offset);
         ref TTo r1 = ref Unsafe.As<char, TTo>(ref r0);
         int length = RuntimeHelpers.ConvertLength<char, TTo>(this.length);
 
         return MemoryMarshal.CreateSpan(ref r1, length);
-#else
-        ReadOnlyMemory<char> memory = this.text.AsMemory(this.offset, this.length);
-        Span<char> span = MemoryMarshal.AsMemory(memory).Span;
-
-        return MemoryMarshal.Cast<char, TTo>(span);
-#endif
     }
 
     /// <inheritdoc/>

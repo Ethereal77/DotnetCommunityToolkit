@@ -217,14 +217,9 @@ public class Test_StringPool
         Assert.AreEqual(nameof(helloworld), helloworld);
         Assert.AreEqual(nameof(dotnetCommunityToolkit), dotnetCommunityToolkit);
 
-#if NET6_0_OR_GREATER
-
-        // .NET Framework reuses strings in a way that makes these tests fail.
-        // The actual underlying APIs are still working as expected though.
         Assert.AreNotSame(hello, pool.GetOrAdd(hello.AsSpan()));
         Assert.AreNotSame(helloworld, pool.GetOrAdd(helloworld.AsSpan()));
         Assert.AreNotSame(dotnetCommunityToolkit, pool.GetOrAdd(dotnetCommunityToolkit.AsSpan()));
-#endif
     }
 
     [TestMethod]

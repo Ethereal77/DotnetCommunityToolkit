@@ -50,7 +50,6 @@ public partial class Test_ParallelHelper
         }
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ParallelHelper_For2DInvalidRange_FromEnd()
     {
@@ -86,7 +85,6 @@ public partial class Test_ParallelHelper
             }
         }
     }
-#endif
 
     /// <summary>
     /// A type implementing <see cref="IAction"/> to initialize a 2D array

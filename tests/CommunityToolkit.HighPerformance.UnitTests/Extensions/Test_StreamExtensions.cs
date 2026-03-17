@@ -77,7 +77,6 @@ public class Test_StreamExtensions
             return bytesToCopy;
         }
 
-#if NET6_0_OR_GREATER
         public override int Read(Span<byte> buffer)
         {
             if (this.bufferedBytes.IsEmpty)
@@ -92,7 +91,6 @@ public class Test_StreamExtensions
 
             return bytesToCopy;
         }
-#endif
 
         private byte[] ReadMoreBytes()
         {

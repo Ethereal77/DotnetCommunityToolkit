@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NET6_0_OR_GREATER
-
 using System;
 using CommunityToolkit.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -79,7 +77,6 @@ public class Test_ReadOnlyRefEnumerable
         _ = Assert.ThrowsExactly<IndexOutOfRangeException>(() => ReadOnlyRefEnumerable<int>.DangerousCreate(in array[0], array.Length, 1)[array.Length]);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     [DataRow(1, new[] { 1 })]
     [DataRow(1, new[] { 1, 2, 3, 4 })]
@@ -114,7 +111,4 @@ public class Test_ReadOnlyRefEnumerable
         _ = Assert.ThrowsExactly<IndexOutOfRangeException>(() => ReadOnlyRefEnumerable<int>.DangerousCreate(in array[0], array.Length, 1)[new Index(array.Length)]);
         _ = Assert.ThrowsExactly<IndexOutOfRangeException>(() => ReadOnlyRefEnumerable<int>.DangerousCreate(in array[0], array.Length, 1)[^0]);
     }
-#endif
 }
-
-#endif

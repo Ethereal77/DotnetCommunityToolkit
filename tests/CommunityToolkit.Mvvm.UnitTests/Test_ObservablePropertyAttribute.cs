@@ -6,14 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-#if NET6_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Linq;
 using System.Reflection;
-#if NET6_0_OR_GREATER
 using System.Runtime.CompilerServices;
-#endif
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -621,7 +617,6 @@ public partial class Test_ObservablePropertyAttribute
         Assert.IsEmpty(messages);
     }
 
-#if NET6_0_OR_GREATER
     // See https://github.com/CommunityToolkit/dotnet/issues/155
     [TestMethod]
     public void Test_ObservableProperty_NullabilityAnnotations_Simple()
@@ -712,7 +707,6 @@ public partial class Test_ObservablePropertyAttribute
         Assert.AreEqual(NullabilityState.NotNull, rightInfo2.ReadState);
         Assert.AreEqual(NullabilityState.NotNull, rightInfo2.WriteState);
     }
-#endif
 
     // See https://github.com/CommunityToolkit/dotnet/issues/201
     [TestMethod]
@@ -1069,7 +1063,6 @@ public partial class Test_ObservablePropertyAttribute
         CollectionAssert.AreEqual(new[] { nameof(ModelWithDependentPropertyAndNoPropertyChanging.Name), nameof(ModelWithDependentPropertyAndNoPropertyChanging.FullName) }, changedArgs);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ObservableProperty_MemberNotNullAttributeIsPresent()
     {
@@ -1078,7 +1071,6 @@ public partial class Test_ObservablePropertyAttribute
         Assert.IsNotNull(attribute);
         CollectionAssert.AreEqual(new[] { nameof(ModelWithNonNullableObservableProperty.name) }, attribute.Members);
     }
-#endif
 
     // See https://github.com/CommunityToolkit/dotnet/issues/731
     [TestMethod]
@@ -1539,7 +1531,6 @@ public partial class Test_ObservablePropertyAttribute
         private string? name2;
     }
 
-#if NET6_0_OR_GREATER
     private partial class NullableRepro : ObservableObject
     {
         [ObservableProperty]
@@ -1555,7 +1546,6 @@ public partial class Test_ObservablePropertyAttribute
         {
         }
     }
-#endif
 
     partial class ModelWithObservablePropertyAndBaseClassInAnotherAssembly : ModelWithObservableObjectAttribute
     {
@@ -1725,7 +1715,6 @@ public partial class Test_ObservablePropertyAttribute
         private bool _IsReadOnly;
     }
 
-#if NET6_0_OR_GREATER
     // See https://github.com/CommunityToolkit/dotnet/issues/645
     // This viewmodel is here only to double check no warnings are emitted when the attribute is present
     public partial class ModelWithNonNullableObservableProperty : ObservableObject
@@ -1738,7 +1727,6 @@ public partial class Test_ObservablePropertyAttribute
         [ObservableProperty]
         internal string name;
     }
-#endif
 
     private partial class ModelWithForwardedAttributesWithNegativeValues : ObservableObject
     {
@@ -1774,7 +1762,7 @@ public partial class Test_ObservablePropertyAttribute
         Problem = -1,
         OK = 0
     }
-    
+
     private sealed partial class ModelWithDependentPropertyAndPropertyChanging : ObservableObject
     {
         [ObservableProperty]
@@ -1794,7 +1782,6 @@ public partial class Test_ObservablePropertyAttribute
         public string? FullName => "";
     }
 
-#if NET6_0_OR_GREATER
     // See https://github.com/CommunityToolkit/dotnet/issues/939
     public partial class ModelWithSecondaryPropertySetFromGeneratedSetter_DoesNotWarn : ObservableObject
     {
@@ -1818,5 +1805,4 @@ public partial class Test_ObservablePropertyAttribute
             B = "";
         }
     }
-#endif
 }

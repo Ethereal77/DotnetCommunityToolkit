@@ -37,7 +37,6 @@ public class Test_ReadOnlyMemory2DT
         Assert.AreEqual(0, empty2.Width);
         Assert.AreEqual(0, empty2.Height);
 
-#if NET6_0_OR_GREATER
         MemoryManager<int> memoryManager = new UnmanagedSpanOwner<int>(1);
         ReadOnlyMemory2D<int> empty5 = new(memoryManager, 0, 0);
 
@@ -59,7 +58,6 @@ public class Test_ReadOnlyMemory2DT
         Assert.AreEqual(0, empty7.Length);
         Assert.AreEqual(7, empty7.Width);
         Assert.AreEqual(0, empty7.Height);
-#endif
     }
 
     [TestMethod]
@@ -200,7 +198,6 @@ public class Test_ReadOnlyMemory2DT
         _ = Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(array, 0, 0, 0, 3, 3));
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlyMemory2DT_ReadOnlyMemoryConstructor()
     {
@@ -227,7 +224,6 @@ public class Test_ReadOnlyMemory2DT
         _ = Assert.ThrowsExactly<ArgumentException>(() => memory.AsMemory2D(1, 2, 3, 0));
         _ = Assert.ThrowsExactly<ArgumentException>(() => memory.AsMemory2D(0, 10, 1, 120));
     }
-#endif
 
     [TestMethod]
     public void Test_ReadOnlyMemory2DT_Slice_1()
@@ -318,14 +314,9 @@ public class Test_ReadOnlyMemory2DT
 
         bool success = memory2d.TryGetMemory(out ReadOnlyMemory<int> memory);
 
-#if NETFRAMEWORK
-        Assert.IsFalse(success);
-        Assert.IsTrue(memory.IsEmpty);
-#else
         Assert.IsTrue(success);
         Assert.HasCount(memory.Length, array);
         Assert.IsTrue(Unsafe.AreSame(ref array[0, 0], ref Unsafe.AsRef(in memory.Span[0])));
-#endif
     }
 
     [TestMethod]
@@ -342,7 +333,6 @@ public class Test_ReadOnlyMemory2DT
         Assert.AreEqual(3, memory.Span[2]);
     }
 
-#if NET6_0_OR_GREATER
     [TestMethod]
     public void Test_ReadOnlyMemory2DT_TryGetReadOnlyMemory_3()
     {
@@ -356,7 +346,6 @@ public class Test_ReadOnlyMemory2DT
         Assert.AreEqual(memory.Length, data.Length);
         Assert.AreEqual(3, memory.Span[2]);
     }
-#endif
 
     [TestMethod]
     public unsafe void Test_ReadOnlyMemory2DT_Pin_1()
@@ -491,7 +480,6 @@ public class Test_ReadOnlyMemory2DT
         Assert.AreEqual(expected, text);
     }
 
-#if NET6_0_OR_GREATER
     // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3536
     [TestMethod]
     [DataRow(720, 1280)]
@@ -514,5 +502,4 @@ public class Test_ReadOnlyMemory2DT
         Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(in data.Span[height - 1, 0]), ref Unsafe.AsRef(in slice.Span[(height / 2) - 1, 0])));
         Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(in data.Span[height - 1, width - 1]), ref Unsafe.AsRef(in slice.Span[(height / 2) - 1, width - 1])));
     }
-#endif
 }

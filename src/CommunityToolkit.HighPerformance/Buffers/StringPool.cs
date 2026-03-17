@@ -7,11 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 using CommunityToolkit.HighPerformance.Helpers;
-#if NET6_0_OR_GREATER
 using BitOperations = System.Numerics.BitOperations;
-#else
-using BitOperations = CommunityToolkit.HighPerformance.Helpers.Internals.BitOperations;
-#endif
 
 namespace CommunityToolkit.HighPerformance.Buffers;
 

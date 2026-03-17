@@ -62,7 +62,6 @@ public static class SpanExtensions
         return ref ri;
     }
 
-#if NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Returns a <see cref="Span2D{T}"/> instance wrapping the underlying data for the given <see cref="Span{T}"/> instance.
     /// </summary>
@@ -104,7 +103,6 @@ public static class SpanExtensions
     {
         return new(span, offset, height, width, pitch);
     }
-#endif
 
     /// <summary>
     /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Span{T}"/> of bytes.
@@ -151,12 +149,7 @@ public static class SpanExtensions
     public static unsafe int IndexOf<T>(this Span<T> span, ref readonly T value)
     {
         ref T r0 = ref MemoryMarshal.GetReference(span);
-        IntPtr byteOffset =
-#if NET8_0_OR_GREATER
-            Unsafe.ByteOffset(ref r0, in value);
-#else
-            Unsafe.ByteOffset(ref r0, ref Unsafe.AsRef(in value));
-#endif
+        IntPtr byteOffset = Unsafe.ByteOffset(ref r0, in value);
 
         nint elementOffset = byteOffset / (nint)(uint)sizeof(T);
 

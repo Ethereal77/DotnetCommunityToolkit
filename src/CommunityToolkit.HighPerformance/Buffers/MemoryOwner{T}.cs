@@ -6,9 +6,7 @@ using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-#if NET6_0_OR_GREATER
 using System.Runtime.InteropServices;
-#endif
 using CommunityToolkit.HighPerformance.Buffers.Views;
 
 namespace CommunityToolkit.HighPerformance.Buffers;
@@ -171,7 +169,6 @@ public sealed class MemoryOwner<T> : IMemoryOwner<T>
                 ThrowObjectDisposedException();
             }
 
-#if NET6_0_OR_GREATER
             ref T r0 = ref array!.DangerousGetReferenceAt(this.start);
 
             // On .NET 6+ runtimes, we can manually create a span from the starting reference to
@@ -184,9 +181,6 @@ public sealed class MemoryOwner<T> : IMemoryOwner<T>
             // default Span<T> constructor and paying the cost of the extra conditional branches,
             // especially if T is a value type, in which case the covariance check is JIT removed.
             return MemoryMarshal.CreateSpan(ref r0, this.length);
-#else
-            return new(array!, this.start, this.length);
-#endif
         }
     }
 
