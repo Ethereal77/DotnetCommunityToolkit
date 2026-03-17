@@ -173,8 +173,10 @@ public ref struct RefTuple<T1>
     /// <exception cref="NotSupportedException">Always thrown by this method.</exception>
     [Obsolete("Equals() on RefTuple<T1> will always throw an exception. Use the equality operator instead.")]
     [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
     public override readonly bool Equals(object? obj) =>
         ThrowHelper.ThrowNotSupportedException_Equals(this);
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 
     /// <summary>
     /// Returns a value that indicates whether the current <see cref="RefTuple{T1}"/>
@@ -325,8 +327,10 @@ public ref struct RefTuple<T1, T2>
     /// <exception cref="NotSupportedException">Always thrown by this method.</exception>
     [Obsolete("Equals() on RefTuple<T1, T2> will always throw an exception. Use the equality operator instead.")]
     [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
     public override readonly bool Equals(object? obj) =>
         ThrowHelper.ThrowNotSupportedException_Equals(this);
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 
     /// <summary>
     /// Returns a value that indicates whether the current <see cref="RefTuple{T1, T2}"/>
@@ -490,8 +494,10 @@ public ref struct RefTuple<T1, T2, T3>
     /// <exception cref="NotSupportedException">Always thrown by this method.</exception>
     [Obsolete("Equals() on RefTuple<T1, T2, T3> will always throw an exception. Use the equality operator instead.")]
     [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
     public override readonly bool Equals(object? obj) =>
         ThrowHelper.ThrowNotSupportedException_Equals(this);
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 
     /// <summary>
     /// Returns a value that indicates whether the current <see cref="RefTuple{T1, T2, T3}"/>
@@ -668,8 +674,10 @@ public ref struct RefTuple<T1, T2, T3, T4>
     /// <exception cref="NotSupportedException">Always thrown by this method.</exception>
     [Obsolete("Equals() on RefTuple<T1, T2, T3, T4> will always throw an exception. Use the equality operator instead.")]
     [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
     public override readonly bool Equals(object? obj) =>
         ThrowHelper.ThrowNotSupportedException_Equals(this);
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 
     /// <summary>
     /// Returns a value that indicates whether the current <see cref="RefTuple{T1, T2, T3, T4}"/>
