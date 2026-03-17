@@ -252,6 +252,15 @@ public class Test_RefTuple
         };
 
         Assert.AreEqual("match", result);
+
+        result = tuple switch
+        {
+            (10, 20) => "match",
+            ( > 0, > 0) => "positive",
+            _ => "other"
+        };
+
+        Assert.AreEqual("match", result);
     }
 
     [TestMethod]
@@ -259,7 +268,7 @@ public class Test_RefTuple
     {
         RefTuple<int, int, int> tuple = new(1, 2, 3);
 
-        int result;
+        int result, result2;
 
         switch (tuple)
         {
@@ -275,6 +284,21 @@ public class Test_RefTuple
         }
 
         Assert.AreEqual(123, result);
+
+        switch (tuple)
+        {
+            case (1, 2, 3):
+                result2 = 123;
+                break;
+            case ( > 0, > 0, > 0):
+                result2 = 1;
+                break;
+            default:
+                result2 = 0;
+                break;
+        }
+
+        Assert.AreEqual(123, result2);
     }
 
     [TestMethod]
