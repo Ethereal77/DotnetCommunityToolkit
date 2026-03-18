@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,15 +12,6 @@
       - String extensions and array extensions: These extensions make working with string and arrays easier.
     </Description>
     <PackageTags>Incremental;Loading;Collection;IncrementalLoadingCollection;String;Array;Extensions;Helpers</PackageTags>
-  </PropertyGroup>
-
-  <!-- Necessary polyfills -->
-  <PropertyGroup>
-    <PolySharpIncludeGeneratedTypes>
-      System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;
-      System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;
-      System.Runtime.CompilerServices.SkipLocalsInitAttribute;
-    </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
 </Project>

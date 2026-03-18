@@ -44,7 +44,6 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.5" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.Memory" Version="4.6.3" />
   </ItemGroup>
 
   <!-- .NET Standard 2.1 doesn't have the Unsafe type -->

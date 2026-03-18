@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,18 +12,6 @@
         - ThrowHelper: Helper methods to efficiently throw exceptions.
     </Description>
     <PackageTags>Diagnostics;Guard;ThrowHelper;TypeInfo;Extensions;Helpers</PackageTags>
-  </PropertyGroup>
-
-  <!-- Necessary polyfills -->
-  <PropertyGroup>
-    <PolySharpIncludeGeneratedTypes>
-      System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute;
-      System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute;
-      System.Diagnostics.CodeAnalysis.NotNullAttribute;
-      System.Diagnostics.StackTraceHiddenAttribute;
-      System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
-      System.Runtime.CompilerServices.SkipLocalsInitAttribute;
-    </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
   <ItemGroup>

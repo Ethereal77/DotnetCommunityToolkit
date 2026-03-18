@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -23,15 +23,6 @@
       - NullableRef&lt;T&gt;: a stack-only struct similar to Ref&lt;T&gt;, which also supports nullable references.
     </Description>
     <PackageTags>Parallel;Performance;Unsafe;Span;Memory;String;StringPool;Array;Stream;Buffer;Extensions;Helpers</PackageTags>
-  </PropertyGroup>
-
-  <!-- Necessary polyfills -->
-  <PropertyGroup>
-    <PolySharpIncludeGeneratedTypes>
-      System.Diagnostics.CodeAnalysis.NotNullAttribute;
-      System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;
-      System.Runtime.CompilerServices.SkipLocalsInitAttribute;
-    </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
 </Project>

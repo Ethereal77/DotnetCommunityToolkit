@@ -1,15 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path=".editorconfig" />
-    <File Path=".gitattributes" />
-    <File Path=".gitignore" />
-    <File Path=".runsettings" />
-    <File Path="azure-pipelines.yml" />
-    <File Path="Directory.Build.props" />
-    <File Path="Directory.Build.targets" />
-    <File Path="global.json" />
-    <File Path="toolkit.snk" />
-    <File Path="version.json" />
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Directory.Build.targets" />
   </Folder>
   <Folder Name="/Solution Items/Build/">
     <File Path="build/Community.Toolkit.Common.props" />
@@ -24,6 +16,17 @@
     <File Path="License.md" />
     <File Path="README.md" />
     <File Path="ThirdPartyNotices.txt" />
+  </Folder>
+  <Folder Name="/Solution Items/Global/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path=".runsettings" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="global.json" />
+    <File Path="toolkit.snk" />
+    <File Path="version.json" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="tests/CommunityToolkit.Common.UnitTests/CommunityToolkit.Common.UnitTests.csproj" />

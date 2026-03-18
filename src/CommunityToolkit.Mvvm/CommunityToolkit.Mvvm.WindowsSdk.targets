@@ -16,7 +16,7 @@
       $(ResolveReferencesDependsOn);MvvmToolkitVerifyWindowsSdkPackageVersion
     </ResolveReferencesDependsOn>
   </PropertyGroup>
-  
+
   <!-- Custom target to verify the Windows SDK package version -->
   <Target Name="MvvmToolkitVerifyWindowsSdkPackageVersion" DependsOnTargets="ResolveAssemblyReferences">
     <PropertyGroup>
@@ -25,7 +25,7 @@
         The minimum build versions for the Windows SDK package. We keep track of up to 3 different versions:
           - The minimum Windows SDK package for which we don't want to emit a build error.
           - The recommended Windows SDK package for UWP projects using the .NET 9 SDK (with UWP XAML projections).
-          - The recommended Windows SDK package for WindowsAppSDK projects (ie. without UWP XAML projections). 
+          - The recommended Windows SDK package for WindowsAppSDK projects (ie. without UWP XAML projections).
       -->
       <_MvvmToolkitWindowsSdkPackageMinBuild>56</_MvvmToolkitWindowsSdkPackageMinBuild>
       <_MvvmToolkitWindowsSdkPackageRecommendedUwpBuild>57</_MvvmToolkitWindowsSdkPackageRecommendedUwpBuild>
@@ -37,14 +37,14 @@
       <_MvvmToolkitWindowsSdkPackageRecommendedBuild Condition="'$(UseUwp)' != 'true'">$(_MvvmToolkitWindowsSdkPackageRecommendedWindowsAppSDKBuild)</_MvvmToolkitWindowsSdkPackageRecommendedBuild>
     </PropertyGroup>
     <ItemGroup>
-        
+
       <!-- If 'WindowsSdkPackageVersion' is explicitly set, validate against that -->
       <_MvvmToolkitWindowsSdkPackage Include="$(WindowsSdkPackageVersion)" Condition="'$(WindowsSdkPackageVersion)' != ''">
         <Referenced>$(WindowsSdkPackageVersion)</Referenced>
         <Required>10.0.$([System.Version]::Parse("$(WindowsSdkPackageVersion.Split('-')[0])").Build).$(_MvvmToolkitWindowsSdkPackageMinBuild)</Required>
         <Recommended>10.0.$([System.Version]::Parse("$(WindowsSdkPackageVersion.Split('-')[0])").Build).$(_MvvmToolkitWindowsSdkPackageRecommendedBuild)</Recommended>
       </_MvvmToolkitWindowsSdkPackage>
-        
+
       <!--
         Otherwise, validate against the framework reference package. We need to check for two different item specs:
           - "Microsoft.Windows.SDK.NET.Ref": this is the default name for the framework reference for the Windows
@@ -64,14 +64,14 @@
         <Required>10.0.$([System.Version]::Parse("%(ResolvedFrameworkReference.TargetingPackVersion)").Build).$(_MvvmToolkitWindowsSdkPackageMinBuild)</Required>
         <Recommended>10.0.$([System.Version]::Parse("%(ResolvedFrameworkReference.TargetingPackVersion)").Build).$(_MvvmToolkitWindowsSdkPackageRecommendedBuild)</Recommended>
       </_MvvmToolkitWindowsSdkPackage>
-        
+
       <!-- Check whether the referenced Windows SDK package is compatible -->
       <_MvvmToolkitCompatibleWindowsSdkPackages
         Include="@(_MvvmToolkitWindowsSdkPackage)"
         Condition="'@(_MvvmToolkitWindowsSdkPackage)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals(%(Referenced), %(Required)))" />
     </ItemGroup>
     <PropertyGroup>
-        
+
       <!-- Extract the required and recommended Windows SDK package version (to show if the one in use is not compatible) -->
       <_MvvmToolkitWindowsSdkPackageRequired>@(_MvvmToolkitWindowsSdkPackage->'%(Required)')</_MvvmToolkitWindowsSdkPackageRequired>
       <_MvvmToolkitWindowsSdkPackageRecommended>@(_MvvmToolkitWindowsSdkPackage->'%(Recommended)')</_MvvmToolkitWindowsSdkPackageRecommended>

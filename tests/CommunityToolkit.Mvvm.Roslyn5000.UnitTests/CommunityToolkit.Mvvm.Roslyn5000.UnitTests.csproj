@@ -11,16 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\CommunityToolkit.Mvvm.Roslyn5000.UnitTests\Test_ObservablePropertyAttribute_PartialProperties.cs" Link="Test_ObservablePropertyAttribute_PartialProperties.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dbs.Signed3.Nito.AsyncEx.Context" Version="5.0.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="4.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="4.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="System.Reactive" Version="6.1.0" />
-    <PackageReference Include="System.Text.Json" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
