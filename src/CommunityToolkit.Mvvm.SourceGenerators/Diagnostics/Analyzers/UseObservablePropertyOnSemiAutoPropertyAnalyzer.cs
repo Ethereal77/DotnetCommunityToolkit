@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if ROSLYN_4_12_0_OR_GREATER
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -55,11 +53,7 @@ public sealed class UseObservablePropertyOnSemiAutoPropertyAnalyzer : Diagnostic
         {
             // Using [ObservableProperty] on partial properties is only supported when using C# preview.
             // As such, if that is not the case, return immediately, as no diagnostic should be produced.
-#if ROSLYN_5_0_0_OR_GREATER
             if (!context.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp14))
-#else
-            if (!context.Compilation.IsLanguageVersionPreview())
-#endif
             {
                 return;
             }
@@ -360,5 +354,3 @@ public sealed class UseObservablePropertyOnSemiAutoPropertyAnalyzer : Diagnostic
         return new(EnumerateFlags());
     }
 }
-
-#endif

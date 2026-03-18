@@ -2,15 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if ROSLYN_4_12_0_OR_GREATER
-
 using System.Collections.Immutable;
 using System.Linq;
 using CommunityToolkit.Mvvm.SourceGenerators.Extensions;
 using Microsoft.CodeAnalysis;
-#if ROSLYN_5_0_0_OR_GREATER
 using Microsoft.CodeAnalysis.CSharp;
-#endif
 using Microsoft.CodeAnalysis.Diagnostics;
 using static CommunityToolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
@@ -35,11 +31,7 @@ public sealed class UseObservablePropertyOnPartialPropertyAnalyzer : DiagnosticA
         {
             // Using [ObservableProperty] on partial properties is only supported without C# 14.0 or above.
             // As such, if that is not the case, return immediately, as no diagnostic should be produced.
-#if ROSLYN_5_0_0_OR_GREATER
             if (!context.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp14))
-#else
-            if (!context.Compilation.IsLanguageVersionPreview())
-#endif
             {
                 return;
             }
@@ -92,5 +84,3 @@ public sealed class UseObservablePropertyOnPartialPropertyAnalyzer : DiagnosticA
         });
     }
 }
-
-#endif

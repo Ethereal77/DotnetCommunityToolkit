@@ -5,6 +5,11 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+#if NETSTANDARD2_0
+using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#else
+using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
+#endif
 
 namespace System.Collections.Generic;
 

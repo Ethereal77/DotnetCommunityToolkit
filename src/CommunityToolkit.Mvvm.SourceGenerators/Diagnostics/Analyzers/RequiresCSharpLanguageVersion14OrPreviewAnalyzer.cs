@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if ROSLYN_4_12_0_OR_GREATER
-
 using System.Collections.Immutable;
 using CommunityToolkit.Mvvm.SourceGenerators.Extensions;
 using Microsoft.CodeAnalysis;
@@ -32,11 +30,7 @@ public sealed class RequiresCSharpLanguageVersion14OrPreviewAnalyzer : Diagnosti
         context.RegisterCompilationStartAction(static context =>
         {
             // If the language version is set to preview or if we are set to at least C# 14.0, we'll never emit diagnostics
-#if ROSLYN_5_0_0_OR_GREATER
             if (context.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp14))
-#else
-            if (context.Compilation.IsLanguageVersionPreview())
-#endif
             {
                 return;
             }
@@ -81,5 +75,3 @@ public sealed class RequiresCSharpLanguageVersion14OrPreviewAnalyzer : Diagnosti
         });
     }
 }
-
-#endif

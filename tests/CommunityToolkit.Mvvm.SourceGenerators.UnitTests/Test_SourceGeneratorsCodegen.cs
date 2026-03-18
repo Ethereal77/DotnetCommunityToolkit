@@ -1661,11 +1661,7 @@ public partial class Test_SourceGeneratorsCodegen
             }
             """;
 
-#if ROSLYN_4_3_1_OR_GREATER
         VerifyGenerateSources(source, new[] { new ObservablePropertyGenerator() }, ("MyApp.Foo+MyViewModel`1.g.cs", result));
-#else
-        VerifyGenerateSources(source, new[] { new ObservablePropertyGenerator() }, ("MyApp.Foo.MyViewModel_1.g.cs", result));
-#endif
     }
 
     [TestMethod]
@@ -3035,11 +3031,6 @@ public partial class Test_SourceGeneratorsCodegen
                 // Update the assembly version using the version from the assembly of the input generators.
                 // This allows the tests to not need updates whenever the version of the MVVM Toolkit changes.
                 string expectedText = text.Replace("<ASSEMBLY_VERSION>", $"\"{generators[0].GetType().Assembly.GetName().Version}\"");
-
-#if !ROSLYN_4_3_1_OR_GREATER
-                // Adjust the filenames for the legacy Roslyn 4.0
-                filePath = filePath.Replace('`', '_');
-#endif
 
                 SyntaxTree generatedTree = outputCompilation.SyntaxTrees.Single(tree => Path.GetFileName(tree.FilePath) == filePath);
 

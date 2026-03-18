@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if ROSLYN_4_12_0_OR_GREATER
-
 using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -11,9 +9,7 @@ using System.Linq;
 using System.Threading;
 using CommunityToolkit.Mvvm.SourceGenerators.Extensions;
 using Microsoft.CodeAnalysis;
-#if ROSLYN_5_0_0_OR_GREATER
 using Microsoft.CodeAnalysis.CSharp;
-#endif
 using Microsoft.CodeAnalysis.Diagnostics;
 using static CommunityToolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
@@ -83,11 +79,7 @@ public sealed class WinRTObservablePropertyOnFieldsIsNotAotCompatibleAnalyzer : 
 
             // If C# is version 14.0 or above, we can stop here. The last diagnostic is only needed when partial properties
             // cannot be used, to inform developers that they'll need to bump the language version to enable the code fixer.
-#if ROSLYN_5_0_0_OR_GREATER
             if (context.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp14))
-#else
-            if (context.Compilation.IsLanguageVersionPreview())
-#endif
             {
                 return;
             }
@@ -158,5 +150,3 @@ public sealed class WinRTObservablePropertyOnFieldsIsNotAotCompatibleAnalyzer : 
     }
 #pragma warning restore CS8777
 }
-
-#endif

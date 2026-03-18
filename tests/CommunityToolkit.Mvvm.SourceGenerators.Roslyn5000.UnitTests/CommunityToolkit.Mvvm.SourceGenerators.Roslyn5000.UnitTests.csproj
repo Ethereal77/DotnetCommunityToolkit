@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn4120.UnitTests\Test_SourceGeneratorsCodegen.cs" Link="Test_SourceGeneratorsCodegen.cs" />
-    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn4120.UnitTests\Test_SourceGeneratorsDiagnostics.cs" Link="Test_SourceGeneratorsDiagnostics.cs" />
-    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn4120.UnitTests\Test_UseObservablePropertyOnSemiAutoPropertyCodeFixer.cs" Link="Test_UseObservablePropertyOnSemiAutoPropertyCodeFixer.cs" />
-    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn4120.UnitTests\Test_UsePartialPropertyForObservablePropertyCodeFixer.cs" Link="Test_UsePartialPropertyForObservablePropertyCodeFixer.cs" />
+    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000.UnitTests\Test_SourceGeneratorsCodegen.cs" Link="Test_SourceGeneratorsCodegen.cs" />
+    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000.UnitTests\Test_SourceGeneratorsDiagnostics.cs" Link="Test_SourceGeneratorsDiagnostics.cs" />
+    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000.UnitTests\Test_UseObservablePropertyOnSemiAutoPropertyCodeFixer.cs" Link="Test_UseObservablePropertyOnSemiAutoPropertyCodeFixer.cs" />
+    <Compile Include="..\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000.UnitTests\Test_UsePartialPropertyForObservablePropertyCodeFixer.cs" Link="Test_UsePartialPropertyForObservablePropertyCodeFixer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj" />
-    <ProjectReference Include="..\..\src\CommunityToolkit.Mvvm.CodeFixers.Roslyn4120\CommunityToolkit.Mvvm.CodeFixers.Roslyn4120.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Mvvm.CodeFixers.Roslyn5000\CommunityToolkit.Mvvm.CodeFixers.Roslyn5000.csproj" />
     <ProjectReference Include="..\..\src\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000\CommunityToolkit.Mvvm.SourceGenerators.Roslyn5000.csproj" />
   </ItemGroup>
 

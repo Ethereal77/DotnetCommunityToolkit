@@ -97,32 +97,6 @@ internal static class ISymbolExtensions
         return false;
     }
 
-#if !ROSLYN_4_3_1_OR_GREATER
-    /// <summary>
-    /// Tries to get an attribute with the specified fully qualified metadata name.
-    /// </summary>
-    /// <param name="symbol">The input <see cref="ISymbol"/> instance to check.</param>
-    /// <param name="name">The attribute name to look for.</param>
-    /// <param name="attributeData">The resulting attribute, if it was found.</param>
-    /// <returns>Whether or not <paramref name="symbol"/> has an attribute with the specified name.</returns>
-    public static bool TryGetAttributeWithFullyQualifiedMetadataName(this ISymbol symbol, string name, [NotNullWhen(true)] out AttributeData? attributeData)
-    {
-        foreach (AttributeData attribute in symbol.GetAttributes())
-        {
-            if (attribute.AttributeClass?.HasFullyQualifiedMetadataName(name) == true)
-            {
-                attributeData = attribute;
-
-                return true;
-            }
-        }
-
-        attributeData = null;
-
-        return false;
-    }
-#endif
-
     /// <summary>
     /// Calculates the effective accessibility for a given symbol.
     /// </summary>

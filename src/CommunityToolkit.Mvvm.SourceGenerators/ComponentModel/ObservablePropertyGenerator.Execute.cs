@@ -85,13 +85,7 @@ partial class ObservablePropertyGenerator
             // check. When we add Roslyn 18.0 support, we can also update this check to check for at least C# 14.
             if (node is PropertyDeclarationSyntax)
             {
-#if ROSLYN_5_0_0_OR_GREATER
                 return semanticModel.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp14);
-#elif ROSLYN_4_12_0_OR_GREATER
-                return semanticModel.Compilation.IsLanguageVersionPreview();
-#else
-                return false;
-#endif
             }
 
             // All other cases are supported, the syntax filter is already validating that
@@ -105,7 +99,6 @@ partial class ObservablePropertyGenerator
         /// <returns>Whether <paramref name="memberSymbol"/> is valid.</returns>
         public static bool IsCandidateSymbolValid(ISymbol memberSymbol)
         {
-#if ROSLYN_4_12_0_OR_GREATER
             // We only need these additional checks for properties (Roslyn already validates things for fields in our scenarios)
             if (memberSymbol is IPropertySymbol propertySymbol)
             {
@@ -121,7 +114,6 @@ partial class ObservablePropertyGenerator
                     return false;
                 }
             }
-#endif
 
             // Pointer types are never allowed in either case
             if (memberSymbol is
@@ -1004,9 +996,7 @@ partial class ObservablePropertyGenerator
                 SyntaxKind.VirtualKeyword,
                 SyntaxKind.SealedKeyword,
                 SyntaxKind.OverrideKeyword,
-#if ROSLYN_4_3_1_OR_GREATER
                 SyntaxKind.RequiredKeyword
-#endif
             ];
 
             using ImmutableArrayBuilder<SyntaxKind> builder = ImmutableArrayBuilder<SyntaxKind>.Rent();

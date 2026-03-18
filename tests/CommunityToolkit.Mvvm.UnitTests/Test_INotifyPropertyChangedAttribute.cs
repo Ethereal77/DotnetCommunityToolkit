@@ -105,7 +105,6 @@ public partial class Test_INotifyPropertyChangedAttribute
         private int y;
     }
 
-#if ROSLYN_4_12_0_OR_GREATER
     [TestMethod]
     public void Test_INotifyPropertyChanged_WithGeneratedPartialProperties()
     {
@@ -134,7 +133,6 @@ public partial class Test_INotifyPropertyChangedAttribute
         [ObservableProperty]
         public partial int Y { get; set; }
     }
-#endif
 
     [TestMethod]
     public void Test_INotifyPropertyChanged_WithGeneratedProperties_ExternalNetStandard20Assembly()
