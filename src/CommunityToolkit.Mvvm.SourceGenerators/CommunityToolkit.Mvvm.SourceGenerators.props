@@ -48,7 +48,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(MvvmToolkitSourceGeneratorRoslynVersion)" PrivateAssets="all" Pack="false" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" PrivateAssets="all" Pack="false" />
   </ItemGroup>
 
   <!-- Give access to the code fixers project for the exported diagnostic ids and properties -->
