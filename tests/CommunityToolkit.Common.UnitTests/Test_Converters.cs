@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CommunityToolkit.Common.UnitTests;
@@ -19,6 +20,6 @@ public class Test_Converters
     [DataRow(1024L * 1024 * 1024 * 1024 * 1024 * 1024, "1.0 EB")]
     public void Test_ToFileSizeString(long size, string expected)
     {
-        Assert.AreEqual(expected, Converters.ToFileSizeString(size));
+        Assert.AreEqual(expected, Converters.ToFileSizeString(size, CultureInfo.InvariantCulture));
     }
 }
