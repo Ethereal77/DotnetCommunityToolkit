@@ -50,7 +50,7 @@ internal sealed class CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> : CSharpA
     {
         CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
+        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net100;
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ObservableObject).Assembly.Location));
 
         test.ExpectedDiagnostics.AddRange(expected);
@@ -64,7 +64,7 @@ internal sealed class CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> : CSharpA
     {
         CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
+        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net100;
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ObservableObject).Assembly.Location));
 
         // Add any editorconfig properties, if present

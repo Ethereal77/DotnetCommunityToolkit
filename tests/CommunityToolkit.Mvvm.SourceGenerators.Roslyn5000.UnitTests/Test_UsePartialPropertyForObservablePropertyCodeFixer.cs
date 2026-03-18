@@ -36,7 +36,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -48,7 +48,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -83,7 +83,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -96,7 +96,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -132,7 +132,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -146,7 +146,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -184,7 +184,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         string @fixed = """
             using System.ComponentModel.DataAnnotations;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -198,7 +198,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -246,7 +246,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
             using System;
             using System.ComponentModel.DataAnnotations;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -260,7 +260,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
                     set;
                 }
             }
-            
+
             [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
             public class TestAttribute(string text) : Attribute;
             """;
@@ -269,7 +269,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -304,7 +304,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 // This is a comment
@@ -317,7 +317,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -353,7 +353,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 // This is a comment.
@@ -367,7 +367,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -405,7 +405,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 /// <summary>
@@ -421,7 +421,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -462,7 +462,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -472,7 +472,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
                 {
                     I = 42;
                 }
-            
+
                 public int N() => I;
             }
             """;
@@ -481,7 +481,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -515,7 +515,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -527,7 +527,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -566,7 +566,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         string @fixed = """
             using System.Collections.Generic;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -578,7 +578,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -617,7 +617,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         string @fixed = """
             using System.Collections.Generic;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -629,7 +629,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -667,7 +667,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
@@ -679,7 +679,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -725,22 +725,22 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
 
         string @fixed = """
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             partial class C : ObservableObject
             {
                 [ObservableProperty]
                 public partial int I { get; set; }
-            
+
                 public void M()
                 {
                     I = 42;
                     I = 42;
                 }
-            
+
                 public int N() => I;
-            
+
                 public int P() => I + Q(I) + Q(I);
-            
+
                 private int Q(int i) => I + i;
             }
             """;
@@ -749,7 +749,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -784,7 +784,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         string @fixed = """
             using System;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             public partial class Class1 : ObservableObject
             {
                 [ObservableProperty, NotifyPropertyChangedFor("Age")]
@@ -796,7 +796,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -836,7 +836,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         string @fixed = """
             using System;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             public partial class Class1 : ObservableObject
             {
                 [ObservableProperty, NotifyPropertyChangedFor("Age")]
@@ -851,7 +851,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -859,7 +859,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             // /0/Test0.cs(6,74): info MVVMTK0042: The field Class1.name using [ObservableProperty] can be converted to a partial property instead, which is recommended (doing so improves the developer experience and allows other generators and analyzers to correctly see the generated property as well)
             CSharpCodeFixVerifier.Diagnostic().WithSpan(6, 74, 6, 78).WithArguments("Class1", "name"),
-            
+
             // /0/Test0.cs(7,38): info MVVMTK0042: The field Class1.age using [ObservableProperty] can be converted to a partial property instead, which is recommended (doing so improves the developer experience and allows other generators and analyzers to correctly see the generated property as well)
             CSharpCodeFixVerifier.Diagnostic().WithSpan(7, 38, 7, 41).WithArguments("Class1", "age"),
         });
@@ -900,7 +900,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
             using System;
             using System.ComponentModel.DataAnnotations;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             public partial class Class1 : ObservableObject
             {
                 // Leading trivia
@@ -914,7 +914,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
@@ -958,7 +958,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
             using System;
             using System.ComponentModel.DataAnnotations;
             using CommunityToolkit.Mvvm.ComponentModel;
-            
+
             public partial class Class1 : ObservableObject
             {
                 // Leading trivia
@@ -977,7 +977,7 @@ public class Test_UsePartialPropertyForObservablePropertyCodeFixer
         {
             TestCode = original,
             FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net100,
         };
 
         test.TestState.AdditionalReferences.Add(typeof(ObservableObject).Assembly);
