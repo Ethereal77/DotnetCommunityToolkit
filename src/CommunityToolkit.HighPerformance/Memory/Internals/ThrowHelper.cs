@@ -28,6 +28,14 @@ internal static class ThrowHelper
     }
 
     /// <summary>
+    /// Throws an <see cref="ArgumentException"/> when the source span is too large.
+    /// </summary>
+    public static void ThrowArgumentExceptionForSourceTooLarge()
+    {
+        throw new ArgumentException("The source span is too large to copy all the items from.");
+    }
+
+    /// <summary>
     /// Throws an <see cref="ArgumentException"/> when the target span does not have the same shape as the source.
     /// </summary>
     public static void ThrowArgumentExceptionForDestinationWithNotSameShape()
@@ -125,5 +133,29 @@ internal static class ThrowHelper
     public static void ThrowArgumentOutOfRangeExceptionForPitch()
     {
         throw new ArgumentOutOfRangeException("pitch");
+    }
+
+    /// <summary>
+    /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "start" parameter is invalid.
+    /// </summary>
+    public static void ThrowArgumentOutOfRangeExceptionForStart()
+    {
+        throw new ArgumentOutOfRangeException("start");
+    }
+
+    /// <summary>
+    /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "stride" parameter is invalid.
+    /// </summary>
+    public static void ThrowArgumentOutOfRangeExceptionForStride()
+    {
+        throw new ArgumentOutOfRangeException("stride");
+    }
+
+    /// <summary>
+    /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "length" parameter is invalid.
+    /// </summary>
+    public static void ThrowArgumentOutOfRangeExceptionForLength()
+    {
+        throw new ArgumentOutOfRangeException("length");
     }
 }
