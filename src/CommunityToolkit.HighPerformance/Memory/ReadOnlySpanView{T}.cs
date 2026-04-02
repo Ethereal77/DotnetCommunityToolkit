@@ -341,10 +341,11 @@ public readonly ref struct ReadOnlySpanView<T>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForLength();
         }
 
+        int byteOffset = start * Stride;
         int byteLength = MemoryViewHelper.GetByteLength<T>(Stride, length);
-        ReadOnlySpan<byte> slicedSpan = this.span.Slice(start: 0, byteLength);
+        ReadOnlySpan<byte> slicedSpan = this.span.Slice(byteOffset, byteLength);
 
-        return new ReadOnlySpanView<T>(slicedSpan, offset: start * Stride, Stride, length);
+        return new ReadOnlySpanView<T>(slicedSpan, offset: 0, Stride, length);
     }
 
     /// <summary>

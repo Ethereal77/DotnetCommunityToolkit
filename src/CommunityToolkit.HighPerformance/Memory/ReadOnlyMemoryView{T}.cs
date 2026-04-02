@@ -294,10 +294,11 @@ public readonly struct ReadOnlyMemoryView<T> : IEquatable<ReadOnlyMemoryView<T>>
             ThrowHelper.ThrowArgumentOutOfRangeExceptionForLength();
         }
 
+        int byteOffset = start * Stride;
         int byteLength = MemoryViewHelper.GetByteLength<T>(Stride, length);
-        ReadOnlyMemory<byte> slicedMemory = this.memory.Slice(start: 0, byteLength);
+        ReadOnlyMemory<byte> slicedMemory = this.memory.Slice(byteOffset, byteLength);
 
-        return new ReadOnlyMemoryView<T>(slicedMemory, offset: start * Stride, Stride, length);
+        return new ReadOnlyMemoryView<T>(slicedMemory, offset: 0, Stride, length);
     }
 
     /// <summary>
