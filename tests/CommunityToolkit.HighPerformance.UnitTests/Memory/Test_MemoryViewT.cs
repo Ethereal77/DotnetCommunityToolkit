@@ -513,10 +513,9 @@ public class Test_MemoryViewT
     public void Test_MemoryViewT_Equals_SameMemory_IsTrue()
     {
         int[] data = [1, 2, 3];
+
         MemoryView<int> a = new Memory<int>(data);
-        // Struct copy — both variables hold identical Memory<byte> field values,
-        // so both Equals and GetHashCode are consistent.
-        MemoryView<int> b = a;
+        MemoryView<int> b = new Memory<int>(data);
 
         Assert.IsTrue(a.Equals(b));
         Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
@@ -584,8 +583,9 @@ public class Test_MemoryViewT
     public void Test_MemoryViewT_GetHashCode_EqualViewsSameHash()
     {
         int[] data = [1, 2, 3];
+
         MemoryView<int> a = new Memory<int>(data);
-        MemoryView<int> b = a; // struct copy shares the same Memory<byte> field
+        MemoryView<int> b = new Memory<int>(data);
 
         Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
     }

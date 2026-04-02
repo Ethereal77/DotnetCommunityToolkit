@@ -472,8 +472,9 @@ public class Test_ReadOnlyMemoryViewT
     public void Test_ReadOnlyMemoryViewT_Equals_SameMemory_IsTrue()
     {
         int[] data = [1, 2, 3];
+
         ReadOnlyMemoryView<int> a = new ReadOnlyMemory<int>(data);
-        ReadOnlyMemoryView<int> b = a; // struct copy
+        ReadOnlyMemoryView<int> b = new ReadOnlyMemory<int>(data);
 
         Assert.IsTrue(a.Equals(b));
         Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
@@ -540,8 +541,9 @@ public class Test_ReadOnlyMemoryViewT
     public void Test_ReadOnlyMemoryViewT_GetHashCode_EqualViewsSameHash()
     {
         int[] data = [1, 2, 3];
+
         ReadOnlyMemoryView<int> a = new ReadOnlyMemory<int>(data);
-        ReadOnlyMemoryView<int> b = a; // struct copy
+        ReadOnlyMemoryView<int> b = new ReadOnlyMemory<int>(data);
 
         Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
     }

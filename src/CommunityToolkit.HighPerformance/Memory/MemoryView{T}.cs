@@ -364,7 +364,11 @@ public readonly struct MemoryView<T> : IEquatable<MemoryView<T>>
     /// </summary>
     public bool Equals(MemoryView<T> other)
     {
-        return SpanView.Equals(other.SpanView);
+        return Length == other.Length
+            && Stride == other.Stride
+            && Unsafe.AreSame(
+                ref MemoryMarshal.GetReference(this.memory.Span),
+                ref MemoryMarshal.GetReference(other.memory.Span));
     }
 
     /// <summary>
@@ -379,9 +383,21 @@ public readonly struct MemoryView<T> : IEquatable<MemoryView<T>>
     /// Returns the hash code for the memory view.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override int GetHashCode()
+    public unsafe override int GetHashCode()
     {
-        return HashCode.Combine(this.memory.GetHashCode(), Stride, Length);
+        // We hash the raw pointer to the first byte of the span rather than the Memory<byte>
+        // field itself, because each Cast() call wraps the same backing array in a new
+        // MemoryManager object — so two independently created views over the same array would
+        // produce different hashes via memory.GetHashCode(), violating the Equals/GetHashCode
+        // contract.
+        //
+        // Note: like any pointer-based hash, this value may change across GC
+        // compactions, so ReadOnlyMemoryView<T> should not be used as a long-lived dictionary
+        // key without first pinning the underlying memory.
+        return HashCode.Combine(
+            (nint)Unsafe.AsPointer(ref MemoryMarshal.GetReference(this.memory.Span)),
+            Stride,
+            Length);
     }
 
     /// <summary>
