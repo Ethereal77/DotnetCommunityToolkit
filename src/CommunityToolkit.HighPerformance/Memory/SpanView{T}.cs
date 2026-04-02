@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CommunityToolkit.HighPerformance.Helpers;
 using CommunityToolkit.HighPerformance.Memory.Internals;
+using CommunityToolkit.HighPerformance.Memory.Views;
 
 #pragma warning disable 0809 // Obsolete member 'SpanView<T>.Equals(object)' overrides non-obsolete member 'object.Equals(object)'
 
@@ -44,6 +45,7 @@ namespace CommunityToolkit.HighPerformance;
 /// </item>
 /// </list>
 /// </remarks>
+[DebuggerTypeProxy(typeof(MemoryViewDebugView<>))]
 [DebuggerDisplay("{ToString(),raw}")]
 public readonly ref struct SpanView<T>
     where T : unmanaged

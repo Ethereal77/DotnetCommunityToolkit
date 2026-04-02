@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CommunityToolkit.HighPerformance.Helpers;
 using CommunityToolkit.HighPerformance.Memory.Internals;
+using CommunityToolkit.HighPerformance.Memory.Views;
 
 #pragma warning disable CA2231
 
@@ -46,6 +47,7 @@ namespace CommunityToolkit.HighPerformance;
 /// </item>
 /// </list>
 /// </remarks>
+[DebuggerTypeProxy(typeof(MemoryViewDebugView<>))]
 [DebuggerDisplay("{ToString(),raw}")]
 public readonly struct ReadOnlyMemoryView<T> : IEquatable<ReadOnlyMemoryView<T>>
     where T : unmanaged
