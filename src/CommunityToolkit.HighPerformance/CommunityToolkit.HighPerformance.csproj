@@ -25,6 +25,11 @@
     <PackageTags>Parallel;Performance;Unsafe;Span;Memory;String;StringPool;Array;Stream;Buffer;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
+  <!-- The unit test project always needs access to internals -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="CommunityToolkit.HighPerformance.UnitTests, PublicKey=$(AssemblySignPublicKey)" />
+  </ItemGroup>
+
   <Choose>
     <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
 
@@ -34,11 +39,6 @@
         <PackageReference Include="System.Memory" Version="4.6.3" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-      </ItemGroup>
-
-      <!-- On .NET Standard 2.0, the unit test project also needs access to internals -->
-      <ItemGroup>
-        <InternalsVisibleTo Include="CommunityToolkit.HighPerformance.UnitTests, PublicKey=$(AssemblySignPublicKey)" />
       </ItemGroup>
     </When>
 
