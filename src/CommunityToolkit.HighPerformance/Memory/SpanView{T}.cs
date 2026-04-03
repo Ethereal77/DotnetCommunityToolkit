@@ -718,7 +718,11 @@ public readonly ref struct SpanView<T>
             return [];
         }
 
+#if NET5_0_OR_GREATER
+        T[] array = GC.AllocateUninitializedArray<T>((int)Length);
+#else
         T[] array = new T[Length];
+#endif
         CopyTo(array);
         return array;
     }
