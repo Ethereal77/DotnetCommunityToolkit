@@ -356,7 +356,11 @@ public readonly ref struct SpanView<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.Clear(ref DangerousGetReference(), Length, (nuint)Stride);
+#else
         MemoryViewHelper.Clear(ref DangerousGetReference(), Length, Stride);
+#endif
     }
 
     /// <summary>
@@ -366,7 +370,11 @@ public readonly ref struct SpanView<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fill(T value)
     {
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.Fill(ref DangerousGetReference(), Length, (nuint)Stride, value);
+#else
         MemoryViewHelper.Fill(ref DangerousGetReference(), Length, Stride, value);
+#endif
     }
 
     /// <summary>
@@ -386,10 +394,17 @@ public readonly ref struct SpanView<T>
             ThrowHelper.ThrowArgumentExceptionForSourceTooLarge();
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyFrom(sourceRef: ref MemoryMarshal.GetReference(source),
+                                  destinationRef: ref DangerousGetReference(),
+                                  length: source.Length,
+                                  destinationStride: (nuint)Stride);
+#else
         MemoryViewHelper.CopyFrom(sourceRef: ref MemoryMarshal.GetReference(source),
                                   destinationRef: ref DangerousGetReference(),
                                   length: source.Length,
                                   destinationStride: Stride);
+#endif
     }
 
     /// <summary>
@@ -411,10 +426,17 @@ public readonly ref struct SpanView<T>
             return false;
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyFrom(sourceRef: ref MemoryMarshal.GetReference(source),
+                                  destinationRef: ref DangerousGetReference(),
+                                  length: source.Length,
+                                  destinationStride: (nuint)Stride);
+#else
         MemoryViewHelper.CopyFrom(sourceRef: ref MemoryMarshal.GetReference(source),
                                   destinationRef: ref DangerousGetReference(),
                                   length: source.Length,
                                   destinationStride: Stride);
+#endif
         return true;
     }
 
@@ -467,11 +489,19 @@ public readonly ref struct SpanView<T>
             ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
+                                ref destination.DangerousGetReference(),
+                                Length,
+                                sourceStride: (nuint)Stride,
+                                (nuint)destination.Stride);
+#else
         MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
                                 ref destination.DangerousGetReference(),
                                 Length,
                                 sourceStride: Stride,
                                 destination.Stride);
+#endif
     }
 
     /// <summary>
@@ -493,11 +523,19 @@ public readonly ref struct SpanView<T>
             return false;
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
+                                ref destination.DangerousGetReference(),
+                                Length,
+                                sourceStride: (nuint)Stride,
+                                (nuint)destination.Stride);
+#else
         MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
                                 ref destination.DangerousGetReference(),
                                 Length,
                                 sourceStride: Stride,
                                 destination.Stride);
+#endif
         return true;
     }
 
@@ -518,10 +556,17 @@ public readonly ref struct SpanView<T>
             ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
+                                ref MemoryMarshal.GetReference(destination),
+                                Length,
+                                sourceStride: (nuint)Stride);
+#else
         MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
                                 ref MemoryMarshal.GetReference(destination),
                                 Length,
                                 sourceStride: Stride);
+#endif
     }
 
     /// <summary>
@@ -543,10 +588,17 @@ public readonly ref struct SpanView<T>
             return false;
         }
 
+#if NET6_0_OR_GREATER
+        MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
+                                ref MemoryMarshal.GetReference(destination),
+                                Length,
+                                sourceStride: (nuint)Stride);
+#else
         MemoryViewHelper.CopyTo(sourceRef: ref DangerousGetReference(),
                                 ref MemoryMarshal.GetReference(destination),
                                 Length,
                                 sourceStride: Stride);
+#endif
         return true;
     }
 
