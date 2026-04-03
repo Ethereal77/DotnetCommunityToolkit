@@ -278,6 +278,9 @@ public readonly ref struct ReadOnlySpanView<T>
     /// </exception>
     public ref readonly T this[int index]
     {
+#if NET7_0_OR_GREATER
+        [System.Diagnostics.CodeAnalysis.UnscopedRef]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
@@ -458,6 +461,9 @@ public readonly ref struct ReadOnlySpanView<T>
     /// This method doesn't do any bounds checks, therefore it is the responsibility of the caller
     /// to perform checks in case the returned value is dereferenced.
     /// </remarks>
+#if NET7_0_OR_GREATER
+    [System.Diagnostics.CodeAnalysis.UnscopedRef]
+#endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref readonly T DangerousGetReference()
     {
@@ -475,6 +481,9 @@ public readonly ref struct ReadOnlySpanView<T>
     /// This method doesn't do any bounds checks, therefore it is the responsibility of the caller
     /// to ensure the <paramref name="index"/> parameter is valid.
     /// </remarks>
+#if NET7_0_OR_GREATER
+    [System.Diagnostics.CodeAnalysis.UnscopedRef]
+#endif
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref readonly T DangerousGetReferenceAt(int index)
     {
@@ -489,6 +498,9 @@ public readonly ref struct ReadOnlySpanView<T>
     /// <returns>
     /// A reference to the first element of the span view, or a <see langword="null"/> reference if the span view is empty.
     /// </returns>
+#if NET7_0_OR_GREATER
+    [System.Diagnostics.CodeAnalysis.UnscopedRef]
+#endif
     [EditorBrowsable(EditorBrowsableState.Never)]
     public ref readonly T GetPinnableReference()
     {
@@ -678,6 +690,9 @@ public readonly ref struct ReadOnlySpanView<T>
         /// </summary>
         public readonly ref readonly T Current
         {
+#if NET7_0_OR_GREATER
+            [System.Diagnostics.CodeAnalysis.UnscopedRef]
+#endif
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => ref this.view.DangerousGetReferenceAt(this.position);
         }

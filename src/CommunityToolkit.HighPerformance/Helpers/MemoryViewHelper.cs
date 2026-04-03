@@ -66,7 +66,7 @@ internal static class MemoryViewHelper
     /// <param name="r0">A <typeparamref name="T"/> reference to the start of the memory area.</param>
     /// <param name="length">The number of elements in the memory area.</param>
     /// <param name="stride">The distance in bytes between each consecutive target element.</param>
-    public static void Clear<T>(ref T r0, nint length, nint stride)
+    public static void Clear<T>(scoped ref T r0, nint length, nint stride)
     {
         nint offset = 0;
 
@@ -115,7 +115,7 @@ internal static class MemoryViewHelper
     /// <param name="destinationRef">The target reference to copy to.</param>
     /// <param name="length">The total number of elements to copy.</param>
     /// <param name="sourceStride">The distance in bytes between consecutive elements in the memory area pointed to by <paramref name="sourceRef"/>.</param>
-    public static void CopyTo<T>(ref T sourceRef, ref T destinationRef, nint length, nint sourceStride)
+    public static void CopyTo<T>(scoped ref T sourceRef, scoped ref T destinationRef, nint length, nint sourceStride)
     {
         nint sourceOffset = 0;
         nint destinationOffset = 0;
@@ -204,7 +204,7 @@ internal static class MemoryViewHelper
     /// <param name="length">The total number of elements to copy.</param>
     /// <param name="sourceStride">The distance in bytes between consecutive elements in the memory area pointed to by <paramref name="sourceRef"/>.</param>
     /// <param name="destinationStride">The distance in bytes between consecutive elements in the memory area pointed to by <paramref name="destinationRef"/>.</param>
-    public static void CopyTo<T>(ref T sourceRef, ref T destinationRef, nint length, nint sourceStride, nint destinationStride)
+    public static void CopyTo<T>(scoped ref T sourceRef, scoped ref T destinationRef, nint length, nint sourceStride, nint destinationStride)
     {
         nint sourceOffset = 0;
         nint destinationOffset = 0;
@@ -298,7 +298,7 @@ internal static class MemoryViewHelper
     /// <param name="destinationRef">The target reference to copy to.</param>
     /// <param name="length">The total number of elements to copy.</param>
     /// <param name="destinationStride">The distance in bytes between consecutive elements in the memory area pointed to by <paramref name="destinationRef"/>.</param>
-    public static void CopyFrom<T>(ref T sourceRef, ref T destinationRef, nint length, nint destinationStride)
+    public static void CopyFrom<T>(scoped ref T sourceRef, scoped ref T destinationRef, nint length, nint destinationStride)
     {
         nint sourceOffset = 0;
         nint destinationOffset = 0;
@@ -382,7 +382,7 @@ internal static class MemoryViewHelper
     /// <param name="length">The number of elements in the memory area.</param>
     /// <param name="stride">The distance in bytes between each consecutive target element.</param>
     /// <param name="value">The value to assign to every element in the target memory area.</param>
-    public static void Fill<T>(ref T r0, nint length, nint stride, T value)
+    public static void Fill<T>(scoped ref T r0, nint length, nint stride, T value)
     {
         nint offset = 0;
 
