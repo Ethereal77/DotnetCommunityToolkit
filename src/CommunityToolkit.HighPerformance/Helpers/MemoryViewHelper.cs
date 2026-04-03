@@ -73,14 +73,14 @@ internal static class MemoryViewHelper
         // Main loop with 8 unrolled iterations
         while (length >= 8)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
 
             length -= 8;
             offset += stride;
@@ -88,10 +88,10 @@ internal static class MemoryViewHelper
 
         if (length >= 4)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = default!;
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), default!);
 
             length -= 4;
             offset += stride;
@@ -100,7 +100,7 @@ internal static class MemoryViewHelper
         // Clear the remaining values
         while (length > 0)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = default!;
+            Unsafe.WriteUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), default!);
 
             length -= 1;
             offset += stride;
@@ -122,14 +122,36 @@ internal static class MemoryViewHelper
 
         while (length >= 8)
         {
-            Unsafe.Add(ref destinationRef, destinationOffset + 0) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
-            Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 4) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 5) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 6) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 7) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 0)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 1)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 2)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 3)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 4)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 5)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 6)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 7)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
 
             length -= 8;
             sourceOffset += sourceStride;
@@ -138,10 +160,24 @@ internal static class MemoryViewHelper
 
         if (length >= 4)
         {
-            Unsafe.Add(ref destinationRef, destinationOffset + 0) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
-            Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 0)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 1)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 2)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset + 3)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            length -= 4;
+            sourceOffset += sourceStride;
+            destinationOffset += 4;
 
             length -= 4;
             sourceOffset += sourceStride;
@@ -150,7 +186,8 @@ internal static class MemoryViewHelper
 
         while (length > 0)
         {
-            Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
 
             length -= 1;
             sourceOffset += sourceStride;
@@ -174,14 +211,43 @@ internal static class MemoryViewHelper
 
         while (length >= 8)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
 
             length -= 8;
             sourceOffset += sourceStride;
@@ -190,10 +256,23 @@ internal static class MemoryViewHelper
 
         if (length >= 4)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset += sourceStride);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
+
+            sourceOffset += sourceStride;
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
 
             length -= 4;
             sourceOffset += sourceStride;
@@ -202,7 +281,8 @@ internal static class MemoryViewHelper
 
         while (length > 0)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.AddByteOffset(ref sourceRef, sourceOffset);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref sourceRef, sourceOffset))));
 
             length -= 1;
             sourceOffset += sourceStride;
@@ -225,14 +305,36 @@ internal static class MemoryViewHelper
 
         while (length >= 8)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 4);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 5);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 6);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 7);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 0))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 1))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 2))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 3))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 4))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 5))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 6))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 7))));
 
             length -= 8;
             sourceOffset += 8;
@@ -241,10 +343,20 @@ internal static class MemoryViewHelper
 
         if (length >= 4)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset += destinationStride) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 0))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 1))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 2))));
+
+            destinationOffset += destinationStride;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset + 3))));
 
             length -= 4;
             sourceOffset += 4;
@@ -253,7 +365,8 @@ internal static class MemoryViewHelper
 
         while (length > 0)
         {
-            Unsafe.AddByteOffset(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref destinationRef, destinationOffset)),
+                Unsafe.ReadUnaligned<T>(ref Unsafe.As<T, byte>(ref Unsafe.Add(ref sourceRef, sourceOffset))));
 
             length -= 1;
             sourceOffset += 1;
@@ -275,14 +388,14 @@ internal static class MemoryViewHelper
 
         while (length >= 8)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
 
             length -= 8;
             offset += stride;
@@ -290,10 +403,10 @@ internal static class MemoryViewHelper
 
         if (length >= 4)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
-            Unsafe.AddByteOffset(ref r0, offset += stride) = value;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset += stride)), value);
 
             length -= 4;
             offset += stride;
@@ -301,7 +414,7 @@ internal static class MemoryViewHelper
 
         while (length > 0)
         {
-            Unsafe.AddByteOffset(ref r0, offset) = value;
+            Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref Unsafe.AddByteOffset(ref r0, offset)), value);
 
             length -= 1;
             offset += stride;
