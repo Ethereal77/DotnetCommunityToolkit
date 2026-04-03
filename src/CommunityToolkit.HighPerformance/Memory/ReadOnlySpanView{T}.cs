@@ -595,6 +595,10 @@ public readonly ref struct ReadOnlySpanView<T>
     {
         if (typeof(T) == typeof(char))
         {
+#if NET9_0_OR_GREATER
+            return string.Create((int)Length, this, static (chars, view) =>
+                view.CopyTo(MemoryMarshal.Cast<char, T>(chars)));
+#else
             string result = new('\0', (int)Length);
 
             fixed (char* p = result)
@@ -603,6 +607,7 @@ public readonly ref struct ReadOnlySpanView<T>
             }
 
             return result;
+#endif
         }
 
         return nameof(ReadOnlySpanView<T>) + $"<{typeof(T).Name}>[{Length}]";
